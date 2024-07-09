@@ -5,49 +5,49 @@ type MainScreenProps = {
   offersCount:number;
 }
 //Карточки предложений
-const CardSetting = [
+const cardSettings = [
   {
-    ImageSource : 'apartment-01.jpg',
-    PricePlace: 120,
-    InBookmarks :true,
-    PlaceCardRating :'80%',
-    PlaceCardDescription : 'Beautiful &amp; luxurious apartment at great location',
+    imageSource : 'apartment-01.jpg',
+    pricePlace: 120,
+    inBookmarks :true,
+    placeCardRating :'80%',
+    placeCardDescription : 'Beautiful &amp; luxurious apartment at great location',
     PlaceCardType : 'Apartment',
 
   },
   {
-    ImageSource : 'room.jpg',
-    PricePlace: 80,
-    InBookmarks :true,
-    PlaceCardRating :'80%',
-    PlaceCardDescription : 'Wood and stone place',
+    imageSource : 'room.jpg',
+    pricePlace: 80,
+    inBookmarks :true,
+    placeCardRating :'80%',
+    placeCardDescription : 'Wood and stone place',
     PlaceCardType : 'Room',
 
   },
   {
-    ImageSource : 'apartment-02.jpg',
-    PricePlace: 132,
-    InBookmarks :false,
-    PlaceCardRating :'80%',
-    PlaceCardDescription : 'Canal View Prinsengracht',
+    imageSource : 'apartment-02.jpg',
+    pricePlace: 132,
+    inBookmarks :false,
+    placeCardRating :'80%',
+    placeCardDescription : 'Canal View Prinsengracht',
     PlaceCardType : 'Apartament',
 
   },
   {
-    ImageSource : 'apartment-03.jpg',
-    PricePlace: 180,
-    InBookmarks :false,
-    PlaceCardRating :'100%',
-    PlaceCardDescription : 'Nice, cozy, warm big bed apartment',
+    imageSource : 'apartment-03.jpg',
+    pricePlace: 180,
+    inBookmarks :false,
+    placeCardRating :'100%',
+    placeCardDescription : 'Nice, cozy, warm big bed apartment',
     PlaceCardType : 'Apartament',
 
   },
   {
-    ImageSource : 'room.jpg',
-    PricePlace: 80,
-    InBookmarks :true,
-    PlaceCardRating :'80%',
-    PlaceCardDescription : 'Wood and stone place',
+    imageSource : 'room.jpg',
+    pricePlace: 80,
+    inBookmarks :true,
+    placeCardRating :'80%',
+    placeCardDescription : 'Wood and stone place',
     PlaceCardType : 'Room',
 
   }
@@ -145,49 +145,22 @@ function MainPage({offersCount}: MainScreenProps): JSX.Element {
                 </ul>
               </form>
               <div className="cities__places-list places__list tabs__content">
-                <OfferCard
-                  imageSource={CardSetting[0].ImageSource}
-                  pricePlace={CardSetting[0].PricePlace}
-                  inBookmarks={CardSetting[0].InBookmarks}
-                  placeCardRating={CardSetting[0].PlaceCardRating}
-                  placeCardDescription={CardSetting[0].PlaceCardDescription}
-                  placeCardType={CardSetting[0].PlaceCardType}
-                />
-                <OfferCard
-                  imageSource={CardSetting[1].ImageSource}
-                  pricePlace={CardSetting[1].PricePlace}
-                  inBookmarks={CardSetting[1].InBookmarks}
-                  placeCardRating={CardSetting[1].PlaceCardRating}
-                  placeCardDescription={CardSetting[1].PlaceCardDescription}
-                  placeCardType={CardSetting[1].PlaceCardType}
-                />
 
-                <OfferCard
-                  imageSource={CardSetting[2].ImageSource}
-                  pricePlace={CardSetting[2].PricePlace}
-                  inBookmarks={CardSetting[2].InBookmarks}
-                  placeCardRating={CardSetting[2].PlaceCardRating}
-                  placeCardDescription={CardSetting[2].PlaceCardDescription}
-                  placeCardType={CardSetting[2].PlaceCardType}
-                />
+                {
+                  cardSettings.map((item) =>
 
-                <OfferCard
-                  imageSource={CardSetting[3].ImageSource}
-                  pricePlace={CardSetting[3].PricePlace}
-                  inBookmarks={CardSetting[3].InBookmarks}
-                  placeCardRating={CardSetting[3].PlaceCardRating}
-                  placeCardDescription={CardSetting[3].PlaceCardDescription}
-                  placeCardType={CardSetting[3].PlaceCardType}
-                />
-                <OfferCard
-                  imageSource={CardSetting[4].ImageSource}
-                  pricePlace={CardSetting[4].PricePlace}
-                  inBookmarks={CardSetting[4].InBookmarks}
-                  placeCardRating={CardSetting[4].PlaceCardRating}
-                  placeCardDescription={CardSetting[4].PlaceCardDescription}
-                  placeCardType={CardSetting[4].PlaceCardType}
-                />
+                    (
+                      <OfferCard key={item.placeCardDescription + item.imageSource}
+                        imageSource={item.imageSource}
+                        pricePlace={item.pricePlace}
+                        inBookmarks={item.inBookmarks}
+                        placeCardRating={item.placeCardRating}
+                        placeCardDescription={item.placeCardDescription}
+                        placeCardType={item.PlaceCardType}
+                      />)
 
+                  )
+                }
 
               </div>
             </section>
