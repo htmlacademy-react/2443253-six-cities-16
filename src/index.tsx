@@ -1,17 +1,23 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './components/app/app';
-import {setting} from './const.ts';
+import App from './app/app.tsx';
+
+
+import {OFFERS} from './mocks/offers';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 
+export const setting = {
+  offersCount : OFFERS.length,
+};
+
 
 root.render(
   <React.StrictMode>
     <App
-      offersCount = {setting.offersCount}
+      offers = {OFFERS}
     />
   </React.StrictMode>
 );
