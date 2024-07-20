@@ -1,20 +1,28 @@
 import { Helmet } from 'react-helmet-async';
 import { OfferPreview } from '../../types/offer';
 import { OfferList } from '../../components/offer-list/offer-list';
+import { Link } from 'react-router-dom';
+import { AppRoute, CityMap } from '../../const';
+import { City } from '../../types/city';
+import takeCity from '../../utils';
 
 type FavoriteProps = {
 
   offers : OfferPreview[];
 }
 
-function FavoritePlacesForCity ({city,offers} : {city :string; offers:OfferPreview[]}){
+function FavoritePlacesForCity ({city,offers} : {city :City; offers:OfferPreview[]}){
   return(
     <li className="favorites__locations-items">
       <div className="favorites__locations locations locations--current">
         <div className="locations__item">
-          <a className="locations__item-link" href="#">
-            <span>{city}</span>
-          </a>
+          <Link className="locations__item-link"
+            to={`${AppRoute.Main}`}
+            state={{ offers : offers, locations : {CityMap}, currentCity : {city}}}
+          >
+            <span>{city.name}</span>
+          </Link>
+
         </div>
       </div>
       <div className="favorites__places">
@@ -48,7 +56,8 @@ export default function FavoritePage({offers}: FavoriteProps): JSX.Element {
                   (
                     <FavoritePlacesForCity
                       key={item}
-                      city= {item}
+                      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+                      city = {takeCity(item)}
                       offers={offers}
                     />)
 

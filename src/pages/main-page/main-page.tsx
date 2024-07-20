@@ -5,16 +5,30 @@ import {OfferPreview} from '../../types/offer';
 import { OfferList } from '../../components/offer-list/offer-list';
 import { CitiesName, CityMap } from '../../const';
 import { useState } from 'react';
+import { City } from '../../types/city';
+import takeCity from '../../utils';
+import { useLocation } from 'react-router-dom';
+import Map from '../../components/map/map';
 
 type MainScreenProps = {
   offers : OfferPreview[];
   locations: typeof CityMap;
+  currentCity:City;
 }
 
-function MainPage({offers,locations}: MainScreenProps): JSX.Element {
+function MainPage({offers,locations,currentCity}: MainScreenProps): JSX.Element {
+
+  const data = useLocation();
+
+  if (data.state){
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    currentCity = data.state.currentCity.city as City;
+  }
+
+  currentCity = currentCity ? currentCity : takeCity(CitiesName.Paris);
 
   //State по выбору города
-  const [activeCity, setActiveCity] = useState(CitiesName.Amsterdam.toString());
+  const [activeCity, setActiveCity] = useState(currentCity);
 
   return (
     <div className="page page--gray page--main">
@@ -29,8 +43,8 @@ function MainPage({offers,locations}: MainScreenProps): JSX.Element {
               {Object.values(locations).map((city) => (
                 <li key={city.name} className="locations__item">
                   <a className="locations__item-link tabs__item" href="#"
-                    style = {city.name.toString() === activeCity ? {border : '1px solid'} : {border : ''}}
-                    onClick = {()=>setActiveCity(city.name)}
+                    style = {city.name.toString() === activeCity.name ? {border : '1px solid'} : {border : ''}}
+                    onClick = {()=>setActiveCity(city)}
                   >
                     <span>{city.name}</span>
                   </a>
@@ -43,8 +57,8 @@ function MainPage({offers,locations}: MainScreenProps): JSX.Element {
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{offers.filter((offer)=>offer.city.name === activeCity).length} places to stay in {activeCity}</b>
-              <form className="places__sorting" action="#" method="get">
+              <b className="places__found">{offers.filter((offer)=>offer.city.name === activeCity.name).length} places to stay in {activeCity.name}</b>
+              {/* <form className="places__sorting" action="#" method="get">
                 <span className="places__sorting-caption">Sort by</span>
                 <span className="places__sorting-type" tabIndex ={0}>
                   Popular
@@ -58,13 +72,21 @@ function MainPage({offers,locations}: MainScreenProps): JSX.Element {
                   <li className="places__option" tabIndex ={0}>Price: high to low</li>
                   <li className="places__option" tabIndex ={0}>Top rated first</li>
                 </ul>
-              </form>
-              <OfferList offers ={offers} city={activeCity} isFavoriteShow ={false}/>
+              </form> */}
+              <div className="cities__places-list places__list tabs__content">
+                <OfferList offers ={offers} city={activeCity} isFavoriteShow ={false}/>
+              </div>
 
 
             </section>
             <div className="cities__right-section">
-              <section className="cities__map map"></section>
+              <section className="cities__map map">
+                <Map
+                  offers={offers}
+                  activeCity={activeCity}
+                  selectedPoint={undefined}
+                />
+              </section>
             </div>
           </div>
         </div>

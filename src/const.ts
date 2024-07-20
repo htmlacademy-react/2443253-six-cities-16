@@ -3,10 +3,12 @@ import { TSizeMap } from './types/size';
 
 export enum AppRoute {
   Login = '/login',
-  Offer = '/offer/:id',
+  Offer = '/offer',
+  OfferId = '/offer/:offerId',
   Favorites = '/favorites',
-  Main = 'main',
-  Favorite = '/favorite',
+  Main = '/',
+  Favorite = 'Favorite',
+
 }
 
 export enum AuthorizationStatus {
@@ -24,6 +26,8 @@ export enum CitiesName {
   Dusseldorf = 'Dusseldorf',
   All ='All'
 }
+
+
 export const CityMap = {
   Paris: { name: CitiesName.Paris, location: { latitude: 48.8566, longitude: 2.3522, zoom: 10} },
   Cologne: { name: CitiesName.Cologne, location: { latitude: 50.935173, longitude: 6.953101, zoom: 10 }},
@@ -43,3 +47,14 @@ export const ImageSizeMap: TSizeMap = {
   small: { width: '150', height: '110'},
   large: { width: '260', height: '200'},
 } as const;
+
+
+export enum LayOutClasses {
+  PageMain = 'page--main',
+  PageFavoritesEmpty = 'page--favorites-empty',
+  PageGray = 'page--gray',
+  PageLogin = 'page--login',
+}
+
+export const URL_MARKER_DEFAULT = 'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/pin.svg';
+export const URL_MARKER_CURRENT = 'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/main-pin.svg';

@@ -1,17 +1,25 @@
 import { Helmet } from 'react-helmet-async';
-import { useLocation } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { Offer} from '../../types/offer';
 import Premium from '../../components/premium/premium';
 import NewComments from '../../components/new-comments/new-comments';
 import { newUser } from '../../mocks/offers';
+import OfferFavoriteButton from '../../components/offer-favorite-button/offer-favorite-button';
+import { AuthorizationStatus } from '../../const';
 
+type OfferProps ={
+  offers : Offer[];
+  authStatus:AuthorizationStatus;
+}
 
-function OfferPage(): JSX.Element {
+function OfferPage({offers,authStatus} : OfferProps): JSX.Element {
 
-  //Получим полную карточку места через useLocation()
-  const location:{state:{offerCard:Offer}} = useLocation();
-  const {offerCard} = location.state;
+  //Получим ID карточки места через useParams()
+  const {offerId} = useParams();
+  // eslint-disable-next-line no-console
+  console.log(offerId);
 
+  const offerCard = offers[0];
   const {title,images,isPremium,isFavorite,rating,type,bedrooms,maxAdults,goods,host,description,price,reviews} = offerCard;
 
   return (
@@ -40,12 +48,7 @@ function OfferPage(): JSX.Element {
                 <h1 className="offer__name">
                   {title}
                 </h1>
-                <button className="offer__bookmark-button button" type="button">
-                  <svg className="offer__bookmark-icon" width="31" height="33">
-                    <use xlinkHref="#icon-bookmark"></use>
-                  </svg>
-                  <span className="visually-hidden">{isFavorite ? 'In bookmarks' : 'To bookmarks'}</span>
-                </button>
+                <OfferFavoriteButton width={31} height={33} isFavorite = {isFavorite} isPreview ={false}/>
               </div>
               <div className="offer__rating rating">
                 <div className="offer__stars rating__stars">
@@ -59,10 +62,10 @@ function OfferPage(): JSX.Element {
                   {type}
                 </li>
                 <li className="offer__feature offer__feature--bedrooms">
-                  {bedrooms} Bedrooms
+                  {bedrooms} {bedrooms > 1 ? 'Bedrooms' : 'Bedroom'}
                 </li>
                 <li className="offer__feature offer__feature--adults">
-                  Max {maxAdults} adults
+                  Max {maxAdults} {maxAdults > 1 ? 'Adults' : 'Adult'}
                 </li>
               </ul>
               <div className="offer__price">
@@ -84,7 +87,7 @@ function OfferPage(): JSX.Element {
               <div className="offer__host">
                 <h2 className="offer__host-title">Meet the host</h2>
                 <div className="offer__host-user user">
-                  <div className="offer__avatar-wrapper offer__avatar-wrapper--pro user__avatar-wrapper">
+                  <div className = {`offer__avatar-wrapper ${host.isPro && 'offer__avatar-wrapper--pro'} user__avatar-wrapper`}>
                     <img className="offer__avatar user__avatar" src={host.avatarUrl} width="74" height="74" alt="Host avatar"/>
                   </div>
                   <span className="offer__user-name">
@@ -132,15 +135,16 @@ function OfferPage(): JSX.Element {
                     )
                   )}
                 </ul>
+                {authStatus === AuthorizationStatus.Auth &&
                 <NewComments
                   onReviewSubmit={(newReview) => {
                     //Здесь добавим новый отзыв для текущего пользователя в state страницы выбранного места: пока не реализовано
                     reviews.push({id:Math.random(), user:newUser,rating:newReview.rating,review:newReview.review,date:''});
                     // eslint-disable-next-line no-console
-                    console.log(reviews);
+                    //console.log(reviews);
 
                   }}
-                />
+                />}
               </section>
             </div>
           </div>

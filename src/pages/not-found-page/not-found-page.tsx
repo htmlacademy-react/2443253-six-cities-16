@@ -1,6 +1,7 @@
 
 import { Helmet } from 'react-helmet-async';
-import Logo from '../../components/logo/logo';
+import { AppRoute } from '../../const';
+import { Link } from 'react-router-dom';
 
 function NotFoundPage(): JSX.Element {
   return (
@@ -11,7 +12,13 @@ function NotFoundPage(): JSX.Element {
 
       <div style={{height:'100vh', display:'flex',flexDirection:'column',justifyContent:'center',alignItems:'center'}}>
         <h1 className="offer__name" >Page not found. Error 404.</h1>
-        <Logo />
+        <Link
+          to={AppRoute.Main}
+        >
+          <h2>
+            {'>>>'} Go to Main Page {'<<<'}
+          </h2>
+        </Link>
       </div>
     </div>
   );

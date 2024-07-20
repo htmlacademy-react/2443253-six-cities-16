@@ -2765,12 +2765,14 @@ export const OFFERS: OfferPreview[] = [
   },
 ];
 
-export const OFFER_DETAIL: Offer = {
+export const OFFERS_DETAIL: Offer[] = [{
   id: 'f641a4cd-06b9-4a1d-8957-3e19fcad7948',
   title: 'Nice, cozy, warm big bed apartment',
+  //Detail+
   description: 'Design interior in most sympathetic area! Complitely renovated, well-equipped, cosy studio in idyllic, over 100 years old wooden house. Calm street, fast connection to center and airport.',
   type: 'house',
   price: 709,
+  //Detail+
   images: [
     'https://16.design.htmlacademy.pro/static/hotel/16.jpg',
     'https://16.design.htmlacademy.pro/static/hotel/13.jpg',
@@ -2792,6 +2794,7 @@ export const OFFER_DETAIL: Offer = {
     longitude: 2.342499,
     zoom: 16
   },
+  //Detail+
   goods: [
     'Towels',
     'Cable TV',
@@ -2801,6 +2804,7 @@ export const OFFER_DETAIL: Offer = {
     'Kitchen',
     'Coffee machine'
   ],
+  //Detail+
   host: {
     isPro: true,
     name: 'Angelina',
@@ -2809,6 +2813,7 @@ export const OFFER_DETAIL: Offer = {
   isPremium: true,
   isFavorite: false,
   rating: 2.4,
+  //Detail+
   bedrooms: 5,
   maxAdults: 7,
   reviews:[
@@ -2820,12 +2825,12 @@ export const OFFER_DETAIL: Offer = {
       date: 'May 2020'
     }
   ]
-};
+}];
 
 export const newUser: User = {
   id: Math.random(),
   name : 'Дима',
-  email : '',
+  email : 'Diman@gmail.com',
   token: '',
   avatarUrl:'',
   isPro:false

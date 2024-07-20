@@ -1,42 +1,68 @@
+import { useState } from 'react';
+import { OfferCardProps } from '../offer-card/offer-card';
+import OfferFavoriteButton from '../offer-favorite-button/offer-favorite-button';
+import Premium from '../premium/premium';
+import { Link } from 'react-router-dom';
+import { AppRoute } from '../../const';
+import { OFFERS_DETAIL } from '../../mocks/offers';
 
 
-function FavoriteCard () :JSX.Element{
+export default function FavoriteCard (props : OfferCardProps) :JSX.Element{
+  const {offerCard,onOverCard} = props;
+  const {id,title, type, price, isPremium,rating,previewImage} = offerCard;
+  const offerId : string = id;
+
+  //State по наведению
+  const [activeCardId, setActiveCard] = useState('');
+
+
+  //Обработчик по наведению
+  const mouseOverHandler = () => {
+    setActiveCard(id);
+    onOverCard(activeCardId);
+  };
+
+
   return(
-    <article className="favorites__card place-card">
-      <div className="place-card__mark">
-        <span>Premium</span>
-      </div>
+    <article className="favorites__card place-card"
+      onMouseOver= {mouseOverHandler}
+    >
+      <Premium isPremium ={isPremium} typeMark = {'place-card__mark'}/>
       <div className="favorites__image-wrapper place-card__image-wrapper">
-        <a href="#">
-          <img className="place-card__image" src="img/apartment-small-03.jpg" width="150" height="110" alt="Place image"/>
-        </a>
+        <Link
+          to={`${AppRoute.Offer}/:${offerId} `}
+          state={{ offerCard: OFFERS_DETAIL[0] }}
+        >
+          <img className="place-card__image" src={`${previewImage}` } width='150' height='110' alt="Place image"/>
+        </Link>
+
       </div>
       <div className="favorites__card-info place-card__info">
         <div className="place-card__price-wrapper">
           <div className="place-card__price">
-            <b className="place-card__price-value">&euro;180</b>
+            <b className="place-card__price-value">&euro;{price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <button className="place-card__bookmark-button place-card__bookmark-button--active button" type="button">
-            <svg className="place-card__bookmark-icon" width="18" height="19">
-              <use xlinkHref="#icon-bookmark"></use>
-            </svg>
-            <span className="visually-hidden">In bookmarks</span>
-          </button>
+          <OfferFavoriteButton width={18} height={19} isFavorite isPreview/>
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{width:'100%'}}></span>
+            <span style={{width: `${rating / 5 * 100}%`}}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
         <h2 className="place-card__name">
-          <a href="#">Nice, cozy, warm big bed apartment</a>
+          <Link
+            to={`${AppRoute.Offer}/:${offerId} `}
+            state={{ offerCard: OFFERS_DETAIL[0] }}
+          >
+            {title}
+          </Link>
         </h2>
-        <p className="place-card__type">Apartment</p>
+        <p className="place-card__type">{type}</p>
       </div>
     </article>
 
   );
 }
-export default FavoriteCard;
+
