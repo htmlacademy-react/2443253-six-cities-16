@@ -7,50 +7,64 @@ import FavoritePage from '../pages/favorites-page/favorites-page';
 import NotFoundPage from '../pages/not-found-page/not-found-page';
 import LoginPage from '../pages/login-page/login-page';
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import PrivateRoute from '../components/private-route/private-route';
 import LayoutMain from '../components/Layout-main/layout-main';
 import { HelmetProvider } from 'react-helmet-async';
 
 import {OfferPreview} from '../types/offer';
+import { newUser, OFFERS_DETAIL } from '../mocks/offers';
+
+import { User } from '../types/user';
 
 
 type AppScreenProps = {
   offers : OfferPreview[];
 }
+type AppState = {
+  authStatus : AuthorizationStatus;
+  favoritesCount : number;
+  user:User;
+}
+const initAppState: AppState = {authStatus:AuthorizationStatus.Auth,favoritesCount:3,user : newUser};
 
 function App({offers}: AppScreenProps): JSX.Element {
+  const {authStatus, favoritesCount,user} = initAppState;
+
   return (
     <HelmetProvider>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element ={<LayoutMain/>}>
+          <Route element ={<LayoutMain favoritesCount = {favoritesCount} authStatus = {authStatus} currentUser = {user}/>}>
             <Route
-              index element={<MainPage offers = {offers} locations ={CityMap}/>}
+              path={AppRoute.Main}
+              index element={<MainPage offers = {offers} locations ={CityMap} currentCity = {CityMap.Amsterdam}/>}
             />
             <Route
-              path={AppRoute.Offer}
-              element={<OfferPage />}
-            />
-            <Route
-              path={AppRoute.Favorite}
+              path={AppRoute.Favorites}
               element={
                 <PrivateRoute
-                  authorizationStatus={AuthorizationStatus.NoAuth}
+                  authorizationStatus={authStatus}
                 >
                   <FavoritePage offers = {offers}/>
                 </PrivateRoute>
               }
             />
-          </Route>
-          <Route
-            path={AppRoute.Login}
-            element={<LoginPage />}
-          />
+            <Route
+              path={AppRoute.OfferId}
+              element={<OfferPage offers = {Array.from([OFFERS_DETAIL[0]])} authStatus = {authStatus} />}
+            />
 
-          <Route
-            path="*"
-            element={<NotFoundPage />}
-          />
+            <Route
+              path={AppRoute.Login}
+              element={<LoginPage />}
+            />
+
+            <Route
+              path="*"
+              element={<NotFoundPage />}
+            />
+          </Route>
         </Routes>
       </BrowserRouter>
     </HelmetProvider>
