@@ -1,5 +1,5 @@
 import {useEffect, useState, useRef, MutableRefObject} from 'react';
-import { TileLayer, Map } from 'leaflet';
+import L, { TileLayer, Map } from 'leaflet';
 import { City } from '../../types/city';
 
 export default function useMap(mapRef: MutableRefObject<HTMLElement | null>,
@@ -7,7 +7,6 @@ export default function useMap(mapRef: MutableRefObject<HTMLElement | null>,
 ): Map | null {
   const [map, setMap] = useState<Map | null>(null);
   const isRenderedRef = useRef<boolean>(false);
-
   useEffect(() => {
     if (mapRef.current !== null && !isRenderedRef.current) {
       const instance = new Map(mapRef.current, {
@@ -30,8 +29,10 @@ export default function useMap(mapRef: MutableRefObject<HTMLElement | null>,
 
       setMap(instance);
       isRenderedRef.current = true;
+    } else if (map) {
+      map.panTo(new L.LatLng(city.location.latitude, city.location.longitude));
     }
-  }, [mapRef, city]);
+  }, [mapRef, city, map]);
 
   return map;
 }

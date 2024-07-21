@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import { useState } from 'react';
 
 type OfferButtonProps = {
@@ -9,22 +10,22 @@ type OfferButtonProps = {
 
 export default function OfferFavoriteButton ({height,width,isFavorite,isPreview}:OfferButtonProps):JSX.Element {
 
-  // eslint-disable-next-line prefer-const
-  let [isCurrentFavoriteStatus, setCurrentFavoriteStatus] = useState(isFavorite);
+  const [isCurrentFavoriteStatus, setCurrentFavoriteStatus] = useState(isFavorite);
 
   //Обработчик по клику
   const mouseClickHandler = () => {
-    setCurrentFavoriteStatus(isCurrentFavoriteStatus = !isCurrentFavoriteStatus);
+    setCurrentFavoriteStatus(!isCurrentFavoriteStatus);
   };
 
-  const classNamePrefix: string = isPreview ? 'place-card' : 'offer';
-  const classNameActive = isCurrentFavoriteStatus ? `${classNamePrefix}__bookmark-button--active` : '';
+  const classNameButton: string = isPreview ? 'place-card__bookmark-button' : 'offer__bookmark-button';
+  const classNameIcon: string = isPreview ? 'place-card__bookmark-icon' : 'offer__bookmark-icon';
+  const classNameActive:string = isPreview ? 'place-card__bookmark-button--active' : 'offer__bookmark-button--active';
 
   return(
-    <button className={`${classNamePrefix}__bookmark-button ${classNameActive} button`} type="button"
+    <button className={clsx(classNameButton,{[classNameActive] : isCurrentFavoriteStatus}, 'button')} type="button"
       onClick = {mouseClickHandler}
     >
-      <svg className={`${classNamePrefix}__bookmark-icon`} width={`${width}`} height={`${height}`}>
+      <svg className={clsx(classNameIcon)} width={`${width}`} height={`${height}`}>
         <use xlinkHref="#icon-bookmark"></use>
       </svg>
       <span className="visually-hidden">{isCurrentFavoriteStatus ? 'In bookmarks' : 'To bookmarks'}</span>

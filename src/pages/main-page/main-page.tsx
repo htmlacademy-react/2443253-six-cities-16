@@ -16,6 +16,7 @@ type MainScreenProps = {
   currentCity:City;
 }
 
+
 function MainPage({offers,locations,currentCity}: MainScreenProps): JSX.Element {
 
   const data = useLocation();
@@ -24,11 +25,13 @@ function MainPage({offers,locations,currentCity}: MainScreenProps): JSX.Element 
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     currentCity = data.state.currentCity.city as City;
   }
-
   currentCity = currentCity ? currentCity : takeCity(CitiesName.Paris);
 
   //State по выбору города
   const [activeCity, setActiveCity] = useState(currentCity);
+  //State по выбору карточки предложения
+  const [selectedCardId, setSelectedId] = useState('');
+
 
   return (
     <div className="page page--gray page--main">
@@ -74,7 +77,11 @@ function MainPage({offers,locations,currentCity}: MainScreenProps): JSX.Element 
                 </ul>
               </form> */}
               <div className="cities__places-list places__list tabs__content">
-                <OfferList offers ={offers} city={activeCity} isFavoriteShow ={false}/>
+                <OfferList offers ={offers} city={activeCity}
+                  onOverCard={(activeCardId) => {
+                    setSelectedId(activeCardId);
+                  }}
+                />
               </div>
 
 
@@ -84,7 +91,8 @@ function MainPage({offers,locations,currentCity}: MainScreenProps): JSX.Element 
                 <Map
                   offers={offers}
                   activeCity={activeCity}
-                  selectedPoint={undefined}
+                  selectedCardId={selectedCardId}
+                  extraHeight = {'100%'}
                 />
               </section>
             </div>

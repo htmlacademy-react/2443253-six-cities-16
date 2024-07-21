@@ -5,12 +5,14 @@ import { OfferPreview } from '../../types/offer.js';
 import { City } from '../../types/city.js';
 import { URL_MARKER_DEFAULT, URL_MARKER_CURRENT } from '../../const.ts';
 import { Icon, layerGroup, Marker} from 'leaflet';
+import 'leaflet/dist/leaflet.css';
 
 
 type MapProps ={
   offers:OfferPreview[];
   activeCity:City;
-  selectedPoint: Location | undefined;
+  selectedCardId: string;
+  extraHeight:string;
 }
 const defaultCustomIcon = new Icon({
   iconUrl: URL_MARKER_DEFAULT,
@@ -18,7 +20,7 @@ const defaultCustomIcon = new Icon({
   iconAnchor: [20, 40]
 });
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+
 const currentCustomIcon = new Icon({
   iconUrl: URL_MARKER_CURRENT,
   iconSize: [40, 40],
@@ -26,29 +28,27 @@ const currentCustomIcon = new Icon({
 });
 
 export default function Map(props: MapProps): JSX.Element {
-  const {activeCity, offers, selectedPoint} = props;
+  const {activeCity, offers, selectedCardId,extraHeight} = props;
   const offersForCity = offers.filter((item) => item.city.name === activeCity.name);
-
   const mapRef = useRef(null);
   const map = useMap(mapRef, activeCity);
+
 
   useEffect(() => {
     if (map) {
       const markerLayer = layerGroup().addTo(map);
       offersForCity.forEach((offer) => {
         const marker = new Marker({
-          lat: offer.city.location.latitude,
-          lng: offer.city.location.longitude
+          lat: offer.location.latitude,
+          lng: offer.location.longitude
         });
 
         marker
-          .setIcon(defaultCustomIcon)
-
-          // .setIcon(
-          //   selectedPoint !== undefined && offer.city.name === activeCity.title
-          //     ? currentCustomIcon
-          //     : defaultCustomIcon
-          // )
+          .setIcon(
+            selectedCardId !== undefined && selectedCardId === offer.id
+              ? currentCustomIcon
+              : defaultCustomIcon
+          )
           .addTo(markerLayer);
       });
 
@@ -56,8 +56,8 @@ export default function Map(props: MapProps): JSX.Element {
         map.removeLayer(markerLayer);
       };
     }
-  }, [map, offersForCity, selectedPoint]);
+  }, [map, offersForCity, selectedCardId,activeCity]);
 
-  return <div style={{height: '500px'}} ref={mapRef}></div>;
+  return <div style={{height: extraHeight}} ref={mapRef}></div>;
 }
 

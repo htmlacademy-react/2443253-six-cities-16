@@ -14,7 +14,7 @@ import { HelmetProvider } from 'react-helmet-async';
 
 import {OfferPreview} from '../types/offer';
 import { newUser, OFFERS_DETAIL } from '../mocks/offers';
-import { useState } from 'react';
+
 import { User } from '../types/user';
 
 
@@ -26,12 +26,10 @@ type AppState = {
   favoritesCount : number;
   user:User;
 }
+const initAppState: AppState = {authStatus:AuthorizationStatus.Auth,favoritesCount:3,user : newUser};
 
 function App({offers}: AppScreenProps): JSX.Element {
-  const initAppState: AppState = {authStatus:AuthorizationStatus.NoAuth,favoritesCount:3,user : newUser};
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [appState,setAppState] = useState(initAppState);
-  const {authStatus, favoritesCount,user} = appState;
+  const {authStatus, favoritesCount,user} = initAppState;
 
   return (
     <HelmetProvider>
@@ -45,11 +43,11 @@ function App({offers}: AppScreenProps): JSX.Element {
             <Route
               path={AppRoute.Favorites}
               element={
-                // <PrivateRoute
-                // authorizationStatus={AuthorizationStatus.NoAuth}
-                // >
-                <FavoritePage offers = {offers}/>
-                // </PrivateRoute>
+                <PrivateRoute
+                  authorizationStatus={authStatus}
+                >
+                  <FavoritePage offers = {offers}/>
+                </PrivateRoute>
               }
             />
             <Route
