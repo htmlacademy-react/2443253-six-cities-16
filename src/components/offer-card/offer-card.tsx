@@ -10,12 +10,13 @@ import clsx from 'clsx';
 export type OfferCardProps = {
   offerCard: OfferPreview;
   isFavoriteList:boolean;
+  isNearbyList:boolean;
   onOverCard?: (cardId : string) => void;
 }
 
 
 export default function OfferCard (props :OfferCardProps) :JSX.Element{
-  const {offerCard,isFavoriteList,onOverCard} = props;
+  const {offerCard,isFavoriteList,isNearbyList,onOverCard} = props;
   const {id,title, type, price, isFavorite,isPremium,rating,previewImage} = offerCard;
   const offerId:string = id;
 
@@ -28,24 +29,27 @@ export default function OfferCard (props :OfferCardProps) :JSX.Element{
   };
   return(
 
-    <article className={clsx(isFavoriteList && 'favorites__card place-card',!isFavoriteList && 'cities__card place-card')}
+    <article className={clsx((isFavoriteList && !isNearbyList) && 'favorites__card place-card',(!isFavoriteList && !isNearbyList) && 'cities__card place-card',
+      isNearbyList && 'near-places__card')}
     //изменяем state состояние при наведении
-      onMouseOver= {mouseOverHandler}
+    onMouseOver= {mouseOverHandler}
     >
-      <Premium isPremium ={isPremium} typeMark = {'place-card__mark'}/>
+      {!isNearbyList && <Premium isPremium ={isPremium} typeMark = {'place-card__mark'}/>}
 
-      <div className= {clsx(isFavoriteList && 'favorites__image-wrapper', !isFavoriteList && 'cities__image-wrapper', 'place-card__image-wrapper')}>
+      <div className= {clsx((isFavoriteList && !isNearbyList) && 'favorites__image-wrapper',
+        (!isFavoriteList && !isNearbyList) && 'cities__image-wrapper', 'place-card__image-wrapper', isNearbyList && 'near-places__image-wrapper')}
+      >
 
         <Link
           to={`${AppRoute.Offer}/:${offerId} `}
           state={{ offerCard: OFFERS_DETAIL[0] }}
         >
-          <img className="place-card__image" src={`${previewImage}` } width={clsx(!isFavoriteList && '260', isFavoriteList && '150')}
-            height={clsx(!isFavoriteList && '200',isFavoriteList && '110')} alt="Place image"
+          <img className="place-card__image" src={`${previewImage}` } width={clsx((!isFavoriteList || isNearbyList) && '260', (isFavoriteList || !isNearbyList) && '150')}
+            height={clsx((!isFavoriteList || isNearbyList) && '200',(isFavoriteList || !isNearbyList) && '110')} alt="Place image"
           />
         </Link>
       </div>
-      <div className= {clsx(isFavoriteList && 'favorites__card-info','place-card__info')}>
+      <div className= {clsx((isFavoriteList && !isNearbyList) && 'favorites__card-info','place-card__info')}>
         <div className="place-card__price-wrapper">
           <div className="place-card__price">
             <b className="place-card__price-value">&euro;{price}</b>

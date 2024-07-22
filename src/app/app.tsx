@@ -13,7 +13,7 @@ import LayoutMain from '../components/Layout-main/layout-main';
 import { HelmetProvider } from 'react-helmet-async';
 
 import {OfferPreview} from '../types/offer';
-import { newUser, OFFERS_DETAIL } from '../mocks/offers';
+import { newUser, OFFERS_DETAIL, OFFERS_NEARBY } from '../mocks/offers';
 
 import { User } from '../types/user';
 
@@ -52,7 +52,7 @@ function App({offers}: AppScreenProps): JSX.Element {
             />
             <Route
               path={AppRoute.OfferId}
-              element={<OfferPage offers = {Array.from([OFFERS_DETAIL[0]])} authStatus = {authStatus} />}
+              element={<OfferPage offers = {Array.from([OFFERS_DETAIL[0]])} offersNearby = {OFFERS_NEARBY}authStatus = {authStatus} />}
             />
 
             <Route

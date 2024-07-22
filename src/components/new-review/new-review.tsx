@@ -10,7 +10,7 @@ type NewReviewProps = {
 };
 
 
-export default function NewComments ({onReviewSubmit}:NewReviewProps){
+export default function NewReview ({onReviewSubmit}:NewReviewProps){
 
 
   const [newReview, setReviewData] = useState({review:'', rating:0});

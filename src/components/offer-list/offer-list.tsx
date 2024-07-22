@@ -26,6 +26,7 @@ export function OfferList ({offers,city,onOverCard} : OfferListProps){
               key={item.id}
               offerCard={{...item}}
               isFavoriteList = {false}
+              isNearbyList = {false}
               onOverCard={(activeCardId) => {
                 if(onOverCard) {
                   onOverCard(activeCardId);
