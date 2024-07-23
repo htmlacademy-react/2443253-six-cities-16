@@ -22,6 +22,7 @@ export function OfferFavoriteList ({offers} : OfferFavoriteListProps){
             <OfferCard
               key={item.id}
               isFavoriteList
+              isNearbyList = {false}
               offerCard={{...item}}
             />
           ))

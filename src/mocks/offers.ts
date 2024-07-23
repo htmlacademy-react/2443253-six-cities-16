@@ -2823,6 +2823,13 @@ export const OFFERS_DETAIL: Offer[] = [{
       rating : 4,
       review: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.',
       date: 'May 2020'
+    },
+    {
+      id:2,
+      user : {id:1, email:'', token:'', name: 'Diman', avatarUrl:'img/avatar-max.jpg',isPro:false},
+      rating : 5,
+      review: 'Nice place',
+      date: 'May 2024'
     }
   ]
 }];
@@ -2837,3 +2844,52 @@ export const newUser: User = {
 
 };
 
+
+export const OFFERS_NEARBY: OfferPreview[] = [
+  {
+    id: '74ca1674-145a-4f32-872b-0cb76db0926c',
+    title: 'House in countryside',
+    type: 'room',
+    price: 145,
+    previewImage: 'https://16.design.htmlacademy.pro/static/hotel/10.jpg',
+    city: {
+      name: 'Paris',
+      location: {
+        latitude: 48.85661,
+        longitude: 2.351499,
+        zoom: 13,
+      },
+    },
+    location: {
+      latitude: 48.858610000000006,
+      longitude: 2.330499,
+      zoom: 16,
+    },
+    isFavorite: true,
+    isPremium: false,
+    rating: 4.8,
+  },
+  {
+    id: 'ffb99d6b-6767-4150-8327-423581c9e2ac',
+    title: 'Beautiful & luxurious apartment at great location',
+    type: 'house',
+    price: 355,
+    previewImage: 'https://16.design.htmlacademy.pro/static/hotel/6.jpg',
+    city: {
+      name: 'Paris',
+      location: {
+        latitude: 48.85661,
+        longitude: 2.351499,
+        zoom: 13,
+      },
+    },
+    location: {
+      latitude: 48.834610000000005,
+      longitude: 2.335499,
+      zoom: 16,
+    },
+    isFavorite: true,
+    isPremium: false,
+    rating: 4.3,
+  },
+];
