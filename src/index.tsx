@@ -4,6 +4,8 @@ import App from './app/app.tsx';
 
 
 import {OFFERS} from './mocks/offers';
+import { Provider } from 'react-redux';
+import { store } from './store/index.ts';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -16,8 +18,10 @@ export const setting = {
 
 root.render(
   <React.StrictMode>
-    <App
-      offers = {OFFERS}
-    />
+    <Provider store = {store}>
+      <App
+        offers = {OFFERS}
+      />
+    </Provider>
   </React.StrictMode>
 );
