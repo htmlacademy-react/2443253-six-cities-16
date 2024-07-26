@@ -4,12 +4,13 @@ import { Offer, OfferPreview} from '../../types/offer';
 import Premium from '../../components/premium/premium';
 import { newUser } from '../../mocks/offers';
 import OfferFavoriteButton from '../../components/offer-favorite-button/offer-favorite-button';
-import { AuthorizationStatus } from '../../const';
+import { AuthorizationStatus, BookmarkSizeMap, VariantCard } from '../../const';
 import ReviewsList from '../../components/reviews-list/reviews-list';
 import NewReview from '../../components/new-review/new-review';
 import Map from '../../components/map/map';
-import { OfferNearbyList } from '../../components/offer-nearby-list/offer-nearby-list';
 import { useState } from 'react';
+import OfferCard from '../../components/offer-card/offer-card';
+import { OfferList } from '../../components/offer-list/offer-list';
 
 type OfferProps ={
   offers : Offer[];
@@ -57,7 +58,7 @@ function OfferPage({offers,offersNearby,authStatus} : OfferProps): JSX.Element {
                 <h1 className="offer__name">
                   {title}
                 </h1>
-                <OfferFavoriteButton width={31} height={33} isFavorite = {isFavorite} isPreview ={false}/>
+                <OfferFavoriteButton width={BookmarkSizeMap.large.width} height={BookmarkSizeMap.large.height} isFavorite = {isFavorite} isPreview ={false}/>
               </div>
               <div className="offer__rating rating">
                 <div className="offer__stars rating__stars">
@@ -129,26 +130,36 @@ function OfferPage({offers,offersNearby,authStatus} : OfferProps): JSX.Element {
               </section>
             </div>
           </div>
-          <section className="offer__map map">
-            {/* Карта предложений неподалеку */}
-            <Map
-              offers={offersNearby}
-              activeCity={city}
-              selectedCardId={selectedNearbyCardId}
-              extraHeight = {'100%'}
-            />
-          </section>
+          {/* Карта предложений неподалеку */}
+          <Map
+            offers={offersNearby}
+            activeCity={city}
+            selectedCardId={selectedNearbyCardId}
+            extraHeight = '100%'
+            extraClass='offer__map'
+          />
         </section>
         <div className="container">
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
-            <div className="near-places__list places__list">
 
-              <OfferNearbyList offersNearby ={offersNearby}
-                onOverCard={(cardId) => setSelectedNearbyId(cardId)}
-              />
+            <OfferList
+              offers ={offersNearby}
+              extraClassName='near-places__list'
+            >
+              {(dataCard) => (
+                <OfferCard
+                  key={dataCard.id}
+                  offerCard={dataCard}
+                  variant={VariantCard.NearbyOffer}
+                  onOverCard={(cardId) => {
+                    setSelectedNearbyId(cardId);
+                  }}
+                />
+              )}
+            </OfferList>
 
-            </div>
+
           </section>
         </div>
       </main>

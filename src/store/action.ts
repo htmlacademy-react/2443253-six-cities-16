@@ -1,5 +1,8 @@
-import {createAction} from '@reduxjs/toolkit';
+import { changeCity as offerChangeCity, reloadOffers as offerReloadOffers} from './offerSlice';
 
-export const changeCity = createAction('game/changeCity');
-export const reloadOffers = createAction('offers/reloadOffers');
-
+export const actions = {
+  offer: {
+    changeCity: offerChangeCity,
+    reloadOffers: offerReloadOffers,
+  },
+};

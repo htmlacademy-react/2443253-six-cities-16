@@ -3,12 +3,19 @@ import { Helmet } from 'react-helmet-async';
 
 import {OfferPreview} from '../../types/offer';
 import { OfferList } from '../../components/offer-list/offer-list';
-import { CitiesName, CityMap } from '../../const';
+import { CitiesName, CityMap, VariantCard } from '../../const';
 import { useState } from 'react';
 import { City } from '../../types/city';
 import takeCity from '../../utils';
 import { useLocation } from 'react-router-dom';
 import Map from '../../components/map/map';
+import OfferCard from '../../components/offer-card/offer-card';
+import { useDispatch } from 'react-redux';
+//import { useSelector } from 'react-redux';
+//import { selectors } from '../../store/selectors';
+
+import { actions } from '../../store/action';
+//import { StateType } from '../../store/types';
 
 type MainScreenProps = {
   offers : OfferPreview[];
@@ -18,8 +25,13 @@ type MainScreenProps = {
 
 
 function MainPage({offers,locations,currentCity}: MainScreenProps): JSX.Element {
-
   const data = useLocation();
+
+  //const city = useSelector((state) =>selectors.offer.city(state as StateType));
+  //  console.log (city);
+  const dispatch = useDispatch();
+  dispatch(actions.offer.changeCity(CitiesName.Cologne));
+
 
   if (data.state){
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
@@ -76,25 +88,32 @@ function MainPage({offers,locations,currentCity}: MainScreenProps): JSX.Element 
                   <li className="places__option" tabIndex ={0}>Top rated first</li>
                 </ul>
               </form> */}
-              <div className="cities__places-list places__list tabs__content">
-                <OfferList offers ={offers} city={activeCity}
-                  onOverCard={(activeCardId) => {
-                    setSelectedId(activeCardId);
-                  }}
-                />
-              </div>
+              <OfferList
+                offers ={offers.filter((offer) => offer.city.name === activeCity.name)}
+                extraClassName='cities__places-list tabs__content'
+              >
+                {(dataCard) => (
+                  <OfferCard
+                    key={dataCard.id}
+                    offerCard={dataCard}
+                    variant={VariantCard.MainOffer}
+                    onOverCard={(activeCardId) => {
+                      setSelectedId(activeCardId);
+                    }}
+                  />
+                )}
+              </OfferList>
 
 
             </section>
             <div className="cities__right-section">
-              <section className="cities__map map">
-                <Map
-                  offers={offers}
-                  activeCity={activeCity}
-                  selectedCardId={selectedCardId}
-                  extraHeight = {'100%'}
-                />
-              </section>
+              <Map
+                offers={offers}
+                activeCity={activeCity}
+                selectedCardId={selectedCardId}
+                extraHeight = {'100%'}
+                extraClass='cities__map'
+              />
             </div>
           </div>
         </div>

@@ -6,6 +6,7 @@ import { City } from '../../types/city.js';
 import { URL_MARKER_DEFAULT, URL_MARKER_CURRENT } from '../../const.ts';
 import { Icon, layerGroup, Marker} from 'leaflet';
 import 'leaflet/dist/leaflet.css';
+import clsx from 'clsx';
 
 
 type MapProps ={
@@ -13,6 +14,7 @@ type MapProps ={
   activeCity:City;
   selectedCardId: string;
   extraHeight:string;
+  extraClass:string;
 }
 const defaultCustomIcon = new Icon({
   iconUrl: URL_MARKER_DEFAULT,
@@ -28,7 +30,7 @@ const currentCustomIcon = new Icon({
 });
 
 export default function Map(props: MapProps): JSX.Element {
-  const {activeCity, offers, selectedCardId,extraHeight} = props;
+  const {activeCity, offers, selectedCardId,extraHeight,extraClass} = props;
   const offersForCity = offers.filter((item) => item.city.name === activeCity.name);
   const mapRef = useRef(null);
   const map = useMap(mapRef, activeCity);
@@ -58,6 +60,14 @@ export default function Map(props: MapProps): JSX.Element {
     }
   }, [map, offersForCity, selectedCardId,activeCity]);
 
-  return <div style={{height: extraHeight}} ref={mapRef}></div>;
+  return (
+    <section className={clsx(extraClass && extraClass,'map')}>
+      <div
+        style={{height: extraHeight}}
+        ref={mapRef}
+      >
+      </div>
+    </section>
+  );
 }
 

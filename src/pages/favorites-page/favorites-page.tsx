@@ -27,7 +27,7 @@ function FavoritePlacesForCity ({city,offers} : {city :City; offers:OfferPreview
       </div>
       <div className="favorites__places">
         <OfferFavoriteList
-          offers ={offers}
+          offers ={offers.filter((offer) => offer.city.name === city.name)}
         />
       </div>
     </li>

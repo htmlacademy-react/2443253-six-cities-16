@@ -1,4 +1,5 @@
 
+import { VariantCard } from '../../const';
 import {OfferPreview} from '../../types/offer';
 import OfferCard from '../offer-card/offer-card';
 
@@ -21,8 +22,7 @@ export function OfferFavoriteList ({offers} : OfferFavoriteListProps){
           (
             <OfferCard
               key={item.id}
-              isFavoriteList
-              isNearbyList = {false}
+              variant={VariantCard.FavoriteOffer}
               offerCard={{...item}}
             />
           ))

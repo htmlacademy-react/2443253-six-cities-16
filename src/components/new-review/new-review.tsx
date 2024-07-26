@@ -8,10 +8,35 @@ type NewReview ={
 type NewReviewProps = {
   onReviewSubmit: (newReview:NewReview) => void;
 };
-
+type RatingStarProps ={
+  newReview:NewReview;
+  rating : number;
+  onRatingChange : (rating:number) => void;
+}
+function RatingStar ({newReview,rating,onRatingChange} : RatingStarProps){
+  const mouseClockHandler = () => {
+    if (onRatingChange){
+      onRatingChange(rating);
+    }
+  };
+  return(
+    <>
+      <input className="form__rating-input visually-hidden"
+        name="rating"
+        value={newReview.rating}
+        onChange = {mouseClockHandler}
+        id={`${rating}-stars`} type="radio"
+      />
+      <label htmlFor={`${rating}-stars`} className="reviews__rating-label form__rating-label" title="perfect">
+        <svg className="form__star-image" width='37' height='33'>
+          <use xlinkHref="#icon-star"></use>
+        </svg>
+      </label>
+    </>
+  );
+}
 
 export default function NewReview ({onReviewSubmit}:NewReviewProps){
-
 
   const [newReview, setReviewData] = useState({review:'', rating:0});
 
@@ -26,69 +51,19 @@ export default function NewReview ({onReviewSubmit}:NewReviewProps){
         evt.preventDefault();
         onReviewSubmit(newReview);
       }}
-
     >
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
       <div className="reviews__rating-form form__rating">
-
-        <input className="form__rating-input visually-hidden"
-          name="rating"
-          value={newReview.rating}
-          onChange = {() =>setReviewData({...newReview, rating : 5})}
-          id="5-stars" type="radio"
-        />
-        <label htmlFor="5-stars" className="reviews__rating-label form__rating-label" title="perfect">
-          <svg className="form__star-image" width="37" height="33">
-            <use xlinkHref="#icon-star"></use>
-          </svg>
-        </label>
-        <input className="form__rating-input visually-hidden"
-          name="rating"
-          value={newReview.rating}
-          onChange = {() =>setReviewData({...newReview, rating : 4})}
-          id="4-stars" type="radio"
-        />
-        <label htmlFor="4-stars" className="reviews__rating-label form__rating-label" title="good">
-          <svg className="form__star-image" width="37" height="33">
-            <use xlinkHref="#icon-star"></use>
-          </svg>
-        </label>
-
-        <input className="form__rating-input visually-hidden"
-          name="rating"
-          value={newReview.rating}
-          onChange = {() =>setReviewData({...newReview, rating : 3})}
-          id="3-stars" type="radio"
-        />
-        <label htmlFor="3-stars" className="reviews__rating-label form__rating-label" title="not bad">
-          <svg className="form__star-image" width="37" height="33">
-            <use xlinkHref="#icon-star"></use>
-          </svg>
-        </label>
-
-        <input className="form__rating-input visually-hidden"
-          name="rating"
-          value={newReview.rating}
-          onChange = {() =>setReviewData({...newReview, rating : 3})}
-          id="2-stars" type="radio"
-        />
-        <label htmlFor="2-stars" className="reviews__rating-label form__rating-label" title="badly">
-          <svg className="form__star-image" width="37" height="33">
-            <use xlinkHref="#icon-star"></use>
-          </svg>
-        </label>
-
-        <input className="form__rating-input visually-hidden"
-          name="rating"
-          value={newReview.rating}
-          onChange = {() =>setReviewData({...newReview, rating : 1})}
-          id="1-star" type="radio"
-        />
-        <label htmlFor="1-star" className="reviews__rating-label form__rating-label" title="terribly">
-          <svg className="form__star-image" width="37" height="33">
-            <use xlinkHref="#icon-star"></use>
-          </svg>
-        </label>
+        {
+          [5,4,3,2,1].map((item) => (
+            <RatingStar
+              key = {item}
+              newReview={newReview}
+              rating={item}
+              onRatingChange={(rating) => setReviewData({...newReview, rating : rating})}
+            />
+          ))
+        }
       </div>
       <textarea
         onChange={handleReviewChange}

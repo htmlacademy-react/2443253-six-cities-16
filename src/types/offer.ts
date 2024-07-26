@@ -26,3 +26,7 @@ export type OfferPreview = {
   previewImage: string;
 };
 export type Offers = Offer[];
+
+export type VariantCardExtraClasses = 'cities__card place-card__image-wrapper' |
+'favorites__card favorites__image-wrapper'|
+ 'near-places__card near-places__image-wrapper';
