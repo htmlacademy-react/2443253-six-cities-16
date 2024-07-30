@@ -25,7 +25,7 @@ export default function MainPage(): JSX.Element {
 
   const offers = useAppSelector(offerSelectors.offers);
   let offersByCity = offers.filter((offer) => offer.city.name === currentCity) ;
-  const sortedOffers = sortOffers.find((variant) => variant.sortVariant===currentSortVariant)?.sort(offersByCity);
+  const sortedOffers = sortOffers.find((variant) => variant.sortVariant === currentSortVariant)?.sort(offersByCity);
   if(sortedOffers) {
     offersByCity = sortedOffers;
     console.log(sortedOffers);
