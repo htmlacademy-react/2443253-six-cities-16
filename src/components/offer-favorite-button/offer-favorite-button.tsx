@@ -2,8 +2,8 @@ import clsx from 'clsx';
 import { useState } from 'react';
 
 type OfferButtonProps = {
-  height:number;
-  width:number;
+  height:string;
+  width:string;
   isFavorite:boolean;
   isPreview:boolean;
 }
@@ -13,7 +13,7 @@ export default function OfferFavoriteButton ({height,width,isFavorite,isPreview}
   const [isCurrentFavoriteStatus, setCurrentFavoriteStatus] = useState(isFavorite);
 
   //Обработчик по клику
-  const mouseClickHandler = () => {
+  const favoriteStatusClickHandler = () => {
     setCurrentFavoriteStatus(!isCurrentFavoriteStatus);
   };
 
@@ -23,9 +23,9 @@ export default function OfferFavoriteButton ({height,width,isFavorite,isPreview}
 
   return(
     <button className={clsx(classNameButton,{[classNameActive] : isCurrentFavoriteStatus}, 'button')} type="button"
-      onClick = {mouseClickHandler}
+      onClick = {favoriteStatusClickHandler}
     >
-      <svg className={clsx(classNameIcon)} width={`${width}`} height={`${height}`}>
+      <svg className={clsx(classNameIcon)} width={width} height={height}>
         <use xlinkHref="#icon-bookmark"></use>
       </svg>
       <span className="visually-hidden">{isCurrentFavoriteStatus ? 'In bookmarks' : 'To bookmarks'}</span>

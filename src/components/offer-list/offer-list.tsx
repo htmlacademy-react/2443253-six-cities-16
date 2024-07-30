@@ -1,42 +1,25 @@
-import OfferCard from '../../components/offer-card/offer-card';
 import {OfferPreview} from '../../types/offer';
-import { City } from '../../types/city';
+import clsx from 'clsx';
 
 
 type OfferListProps = {
   offers: OfferPreview[];
-  city: City;
-  onOverCard?: (cardId : string) => void;
+  extraClassName? : string;
+  children : (data: OfferPreview) => React.ReactNode;
 }
 
 
-export function OfferList ({offers,city,onOverCard} : OfferListProps){
+export function OfferList ({offers,extraClassName,children}:OfferListProps){
 
-
-  //Фильтруем массив карточек
-  const offersVisible = offers.filter((offer) => offer.city.name === city.name);
 
   return(
-    <>
+    <div className={clsx('places__list',extraClassName && extraClassName)}>
       {
-        offersVisible.map((item) =>
-
-          (
-            <OfferCard
-              key={item.id}
-              offerCard={{...item}}
-              isFavoriteList = {false}
-              isNearbyList = {false}
-              onOverCard={(activeCardId) => {
-                if(onOverCard) {
-                  onOverCard(activeCardId);
-                }
-              }}
-            />)
+        offers.map((data) =>
+          children(data)
         )
-
       }
-    </>
+    </div>
 
 
   );

@@ -1,24 +1,37 @@
 import { Helmet } from 'react-helmet-async';
 import { OfferPreview } from '../../types/offer';
-import { Link } from 'react-router-dom';
-import { AppRoute, CityMap } from '../../const';
+import { Link, useSearchParams } from 'react-router-dom';
+import { AppRoute, CitiesName } from '../../const';
 import { City } from '../../types/city';
 import takeCity from '../../utils';
 import { OfferFavoriteList } from '../../components/offer-favorite-list/offer-favorite-list';
+import { offerActions } from '../../store/slices/offer-slice';
+import { useAppDispatch } from '../../store/hooks/useAppDispatch';
+
 
 type FavoriteProps = {
-
   offers : OfferPreview[];
 }
 
+
 function FavoritePlacesForCity ({city,offers} : {city :City; offers:OfferPreview[]}){
+
+  const dispatch = useAppDispatch();
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [_searchParams,setSearchParams] = useSearchParams();
+  const locationClickHandler = (cityName : CitiesName) => {
+
+    setSearchParams({'city': cityName});
+    dispatch(offerActions.changeCity(cityName));
+  };
   return(
     <li className="favorites__locations-items">
       <div className="favorites__locations locations locations--current">
         <div className="locations__item">
           <Link className="locations__item-link"
             to={`${AppRoute.Main}`}
-            state={{ offers : offers, locations : {CityMap}, currentCity : {city}}}
+            onClick = {()=>locationClickHandler(city.name as CitiesName)}
           >
             <span>{city.name}</span>
           </Link>
@@ -27,7 +40,7 @@ function FavoritePlacesForCity ({city,offers} : {city :City; offers:OfferPreview
       </div>
       <div className="favorites__places">
         <OfferFavoriteList
-          offers ={offers}
+          offers ={offers.filter((offer) => offer.city.name === city.name)}
         />
       </div>
     </li>
