@@ -1,3 +1,4 @@
+import { OfferPreview } from './types/offer';
 import { TSizeMap } from './types/size';
 
 
@@ -8,7 +9,6 @@ export enum AppRoute {
   Favorites = '/favorites',
   Main = '/',
   Favorite = 'Favorite',
-
 }
 
 export enum AuthorizationStatus {
@@ -24,9 +24,7 @@ export enum CitiesName {
   Amsterdam = 'Amsterdam',
   Hamburg = 'Hamburg',
   Dusseldorf = 'Dusseldorf',
-  All ='All'
 }
-
 
 export const CityMap = {
   Paris: { name: CitiesName.Paris, location: { latitude: 48.8566, longitude: 2.3522, zoom: 10} },
@@ -64,3 +62,21 @@ export enum VariantCard {
 
 export const URL_MARKER_DEFAULT = 'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/pin.svg';
 export const URL_MARKER_CURRENT = 'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/main-pin.svg';
+
+
+export enum SortVariants {
+  Popular = 'Popular',
+  PriceLowToHi = 'Price low to hi',
+  PriceHiToLow = 'Price hi to low',
+  TopRatedFirst = 'Top rated first',
+}
+export const DEFAULT_SORT_VARIANT = SortVariants.Popular;
+
+export const sortOffers = [
+  {sortVariant: SortVariants.Popular, sort:(offers : OfferPreview[]) => offers},
+  {sortVariant: SortVariants.PriceHiToLow, sort: (offers : OfferPreview[]) => offers.sort((a, b) => b.price - a.price)},
+  {sortVariant: SortVariants.PriceLowToHi, sort: (offers : OfferPreview[]) => offers.sort((a, b) => a.price - b.price)},
+  {sortVariant: SortVariants.TopRatedFirst, sort: (offers : OfferPreview[]) => offers.sort((a, b) => b.rating - a.rating)},
+];
+
+

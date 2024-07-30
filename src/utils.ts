@@ -31,3 +31,7 @@ export function getCardSize(variant : string):typeof ImageSizeMap.large {
     default : return ImageSizeMap.large;
   }
 }
+
+export function formatDate(date:string):string {
+  return new Intl.DateTimeFormat('en-US', {month: 'long', year: 'numeric'}).format(new Date(date));
+}

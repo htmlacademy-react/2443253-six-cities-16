@@ -1,5 +1,5 @@
 import { Helmet } from 'react-helmet-async';
-import { useParams } from 'react-router-dom';
+//import { useParams } from 'react-router-dom';
 import { Offer, OfferPreview} from '../../types/offer';
 import Premium from '../../components/premium/premium';
 import { newUser } from '../../mocks/offers';
@@ -21,13 +21,11 @@ type OfferProps ={
 function OfferPage({offers,offersNearby,authStatus} : OfferProps): JSX.Element {
 
   //Получим ID карточки места через useParams()
-  const {offerId} = useParams();
+  //const {offerId} = useParams();
 
   //State по выбору карточки предложения неподалеку для отображения на карте
   const [selectedNearbyCardId, setSelectedNearbyId] = useState('');
 
-  // eslint-disable-next-line no-console
-  console.log(offerId);
 
   const offerCard = offers[0];
   const {city,title,images,isPremium,isFavorite,rating,type,bedrooms,maxAdults,goods,host,description,price,reviews} = offerCard;
