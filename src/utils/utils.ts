@@ -1,6 +1,6 @@
-import { CityMap, ImageSizeMap, VariantCard } from './const';
-import { City } from './types/city';
-import { VariantCardExtraClasses } from './types/offer';
+import { CityMap, ImageSizeMap, VariantCard } from '../const';
+import { City } from '../types/city';
+import { VariantCardExtraClasses } from '../types/offer';
 
 export default function takeCity (city:string):City {
   switch (city) {

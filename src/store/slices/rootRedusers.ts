@@ -1,7 +1,11 @@
 import { combineReducers } from '@reduxjs/toolkit';
-import {offerSlice} from './offer-slice';
+import {offersSlice} from './offers/offers-slice';
+import { userSlice } from './user/user-slice';
+import { loaderSlice } from './loader/loader-slice';
 
 
 export const rootReducers = combineReducers({
-  [offerSlice.name] : offerSlice.reducer
+  [offersSlice.name] : offersSlice.reducer,
+  [userSlice.name] : userSlice.reducer,
+  [loaderSlice.name] : loaderSlice.reducer
 });
