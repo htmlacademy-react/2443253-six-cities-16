@@ -2,30 +2,30 @@ import { MouseEvent, useEffect } from 'react';
 import { CitiesName } from '../../const';
 import { useAppDispatch } from '../../store/hooks/useAppDispatch';
 import { useAppSelector } from '../../store/hooks/useAppSelector';
-import { offerActions, offerSelectors } from '../../store/slices/offer-slice';
+import { offersActions, offersSelectors } from '../../store/slices/offers/offers-slice';
 import { useSearchParams } from 'react-router-dom';
 
 export function Locations(): JSX.Element {
 
-  const currentCity = useAppSelector(offerSelectors.city);
+  const currentCity = useAppSelector(offersSelectors.city);
   const dispatch = useAppDispatch();
   const [searchParams,setSearchParams] = useSearchParams();
 
   let currentCityUrl = searchParams.get('city') as CitiesName;
-  currentCityUrl = currentCityUrl ? currentCityUrl : currentCity as CitiesName;
+  currentCityUrl = currentCityUrl ? currentCityUrl : currentCity ;
 
   useEffect(() => {
     setSearchParams({
       'city': currentCityUrl
     });
 
-    dispatch(offerActions.changeCity(currentCityUrl));
+    dispatch(offersActions.changeCity(currentCityUrl));
   }
   ,[]);
 
   const onChangeCityClickHandler = (evt:MouseEvent<HTMLElement>,city:CitiesName):void => {
     evt.preventDefault();
-    dispatch(offerActions.changeCity(city));
+    dispatch(offersActions.changeCity(city));
     setSearchParams({
       'city': city,
     });

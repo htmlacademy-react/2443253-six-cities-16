@@ -79,4 +79,13 @@ export const sortOffers = [
   {sortVariant: SortVariants.TopRatedFirst, sort: (offers : OfferPreview[]) => offers.sort((a, b) => b.rating - a.rating)},
 ];
 
+export const BACKEND_URL = 'https://16.design.htmlacademy.pro/six-cities';
+export const REQUEST_TIMEOUT = 5000;
 
+export const HARDCORE_TOKEN = 'b2xpdmVyLmNvbm5lckBnbWFpbC5jb20=';
+
+export enum DATA_PATH_URL {
+  Offers = '/offers',
+}
+
+export const OFFERS_SLICE_NAME = 'offers';

@@ -1,6 +1,6 @@
 import {Route, BrowserRouter, Routes} from 'react-router-dom';
 
-import {AppRoute,AuthorizationStatus} from '../const';
+import {AppRoute,AuthorizationStatus, HARDCORE_TOKEN} from '../const';
 import MainPage from '../pages/main-page/main-page';
 import OfferPage from '../pages/offer-page/offer-page';
 import FavoritePage from '../pages/favorites-page/favorites-page';
@@ -12,15 +12,16 @@ import PrivateRoute from '../components/private-route/private-route';
 import LayoutMain from '../components/layout-main/layout-main';
 import { HelmetProvider } from 'react-helmet-async';
 
-import {OfferPreview} from '../types/offer';
+
 import { newUser, OFFERS_DETAIL, OFFERS_NEARBY } from '../mocks/offers';
 
 import { User } from '../types/user';
+import { saveToken } from '../services/token';
+import Spinner from '../components/spinner/spinner';
+import { useAppSelector } from '../store/hooks/useAppSelector';
+import { loaderSelectors } from '../store/slices/loader/loader-slice';
 
 
-type AppScreenProps = {
-  offers : OfferPreview[];
-}
 type AppState = {
   authStatus : AuthorizationStatus;
   favoritesCount : number;
@@ -28,9 +29,15 @@ type AppState = {
 }
 const initAppState: AppState = {authStatus:AuthorizationStatus.Auth,favoritesCount:3,user : newUser};
 
-function App({offers}: AppScreenProps): JSX.Element {
+function App(): JSX.Element {
   const {authStatus, favoritesCount,user} = initAppState;
-
+  saveToken(HARDCORE_TOKEN);
+  const loadingStatus = useAppSelector(loaderSelectors.loaderStatus);
+  if (loadingStatus){
+    return(
+      <Spinner/>
+    );
+  }
   return (
     <HelmetProvider>
       <BrowserRouter>
@@ -38,7 +45,7 @@ function App({offers}: AppScreenProps): JSX.Element {
           <Route element ={<LayoutMain favoritesCount = {favoritesCount} authStatus = {authStatus} currentUser = {user}/>}>
             <Route
               path={AppRoute.Main}
-              index element={<MainPage />}
+              element={<MainPage/>}
             />
             <Route
               path={AppRoute.Favorites}
@@ -46,7 +53,10 @@ function App({offers}: AppScreenProps): JSX.Element {
                 <PrivateRoute
                   authorizationStatus={authStatus}
                 >
-                  <FavoritePage offers = {offers}/>
+                  {/* {getFavoriteOffers(offers).length > 0 ? */}
+                  {/* <FavoritePage offers = {offers}/> : */}
+                  <FavoritePage/>
+                  {/* <FavoritesEmptyPage/>} */}
                 </PrivateRoute>
               }
             />

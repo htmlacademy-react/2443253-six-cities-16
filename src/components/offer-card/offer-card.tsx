@@ -5,7 +5,7 @@ import { OFFERS_DETAIL } from '../../mocks/offers';
 import Premium from '../premium/premium';
 import OfferFavoriteButton from '../offer-favorite-button/offer-favorite-button';
 import clsx from 'clsx';
-import { getCardClass, getCardSize } from '../../utils';
+import { getCardClass, getCardSize } from '../../utils/utils';
 
 
 export type OfferCardProps = {
