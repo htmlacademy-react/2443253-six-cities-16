@@ -3,15 +3,11 @@ import { OfferPreview } from '../../types/offer';
 import { Link, useSearchParams } from 'react-router-dom';
 import { AppRoute, CitiesName } from '../../const';
 import { City } from '../../types/city';
-import takeCity from '../../utils';
+import takeCity from '../../utils/utils';
 import { OfferFavoriteList } from '../../components/offer-favorite-list/offer-favorite-list';
-import { offerActions } from '../../store/slices/offer-slice';
+import { offersActions, offersSelectors } from '../../store/slices/offers/offers-slice';
 import { useAppDispatch } from '../../store/hooks/useAppDispatch';
-
-
-type FavoriteProps = {
-  offers : OfferPreview[];
-}
+import { useAppSelector } from '../../store/hooks/useAppSelector';
 
 
 function FavoritePlacesForCity ({city,offers} : {city :City; offers:OfferPreview[]}){
@@ -23,7 +19,7 @@ function FavoritePlacesForCity ({city,offers} : {city :City; offers:OfferPreview
   const locationClickHandler = (cityName : CitiesName) => {
 
     setSearchParams({'city': cityName});
-    dispatch(offerActions.changeCity(cityName));
+    dispatch(offersActions.changeCity(cityName));
   };
   return(
     <li className="favorites__locations-items">
@@ -31,7 +27,7 @@ function FavoritePlacesForCity ({city,offers} : {city :City; offers:OfferPreview
         <div className="locations__item">
           <Link className="locations__item-link"
             to={`${AppRoute.Main}`}
-            onClick = {()=>locationClickHandler(city.name as CitiesName)}
+            onClick = {()=>locationClickHandler(city.name)}
           >
             <span>{city.name}</span>
           </Link>
@@ -48,7 +44,8 @@ function FavoritePlacesForCity ({city,offers} : {city :City; offers:OfferPreview
 
 }
 
-export default function FavoritePage({offers}: FavoriteProps): JSX.Element {
+export default function FavoritePage(): JSX.Element {
+  const offers = useAppSelector(offersSelectors.offers);
   //Массив городов
   const cities = Array.from(new Set(offers.map((offer) => offer.city.name)));
 

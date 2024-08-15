@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { DEFAULT_SORT_VARIANT, SortVariants } from '../../const';
 import { useDispatch } from 'react-redux';
-import { offerActions} from '../../store/slices/offer-slice';
+import { offersActions} from '../../store/slices/offers/offers-slice';
 import clsx from 'clsx';
 
 
@@ -25,7 +25,7 @@ export default function SortVariantSelector ():JSX.Element {
     evt.preventDefault();
     setCurrentSortVariant(sortVariant);
     setOpen(false);
-    dispatch(offerActions.changeSortVariant(sortVariant));
+    dispatch(offersActions.changeSortVariant(sortVariant));
   };
 
 
