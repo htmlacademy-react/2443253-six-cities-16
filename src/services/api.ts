@@ -6,6 +6,14 @@ type DetailMessageType = {
   type: string;
   message: string;
 }
+
+export const enum RequestStatus {
+	Idle = 'idle',
+	Loading = 'loading',
+	Success = 'success',
+	Failed = 'failed',
+}
+
 export const createAPI = (): AxiosInstance => {
   const api = axios.create({
     baseURL: BACKEND_URL,
@@ -29,7 +37,7 @@ export const createAPI = (): AxiosInstance => {
       if(error.response) {
         const errorMessage = error.response.data;
         // eslint-disable-next-line no-console
-        console.log(errorMessage);
+        console.log('Ошибка сервера: ', errorMessage);
 
       }
     }

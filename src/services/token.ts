@@ -1,21 +1,21 @@
-const AUTH_TOKEN_KEY_NAME = 'T2xpdmVyLmNvbm5lckBnbWFpbC5jb20=';
+import { HARDCORE_TOKEN } from '../const';
 
 
 export type Token = string;
 
 
 export const getToken = (): Token => {
-  const token = localStorage.getItem(AUTH_TOKEN_KEY_NAME);
+  const token = localStorage.getItem(HARDCORE_TOKEN);
   return token ?? '';
 
 };
 
 
 export const saveToken = (token: Token): void => {
-  localStorage.setItem(AUTH_TOKEN_KEY_NAME, token);
+  localStorage.setItem(HARDCORE_TOKEN, token);
 };
 
 
 export const dropToken = (): void => {
-  localStorage.removeItem(AUTH_TOKEN_KEY_NAME);
+  localStorage.removeItem(HARDCORE_TOKEN);
 };

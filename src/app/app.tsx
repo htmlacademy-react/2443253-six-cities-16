@@ -1,6 +1,6 @@
 import {Route, BrowserRouter, Routes} from 'react-router-dom';
 
-import {AppRoute,AuthorizationStatus, HARDCORE_TOKEN} from '../const';
+import {AppRoute} from '../const';
 import MainPage from '../pages/main-page/main-page';
 import OfferPage from '../pages/offer-page/offer-page';
 import FavoritePage from '../pages/favorites-page/favorites-page';
@@ -13,36 +13,40 @@ import LayoutMain from '../components/layout-main/layout-main';
 import { HelmetProvider } from 'react-helmet-async';
 
 
-import { newUser, OFFERS_DETAIL, OFFERS_NEARBY } from '../mocks/offers';
+import { useEffect } from 'react';
+import { useActionCreators } from '../store/hooks/useActionCreators';
+import { userActions } from '../store/slices/user/user-slice';
 
-import { User } from '../types/user';
-import { saveToken } from '../services/token';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import Spinner from '../components/spinner/spinner';
 import { useAppSelector } from '../store/hooks/useAppSelector';
 import { loaderSelectors } from '../store/slices/loader/loader-slice';
 
-
-type AppState = {
-  authStatus : AuthorizationStatus;
-  favoritesCount : number;
-  user:User;
-}
-const initAppState: AppState = {authStatus:AuthorizationStatus.Auth,favoritesCount:3,user : newUser};
-
 function App(): JSX.Element {
-  const {authStatus, favoritesCount,user} = initAppState;
-  saveToken(HARDCORE_TOKEN);
+
+  const {checkAuth} = useActionCreators(userActions);
+  useEffect(() => {
+    checkAuth();
+  }, []);
+
+  //const {authStatus, user} = initAppState;
+  //saveToken(HARDCORE_TOKEN);
+  //Спиннер
   const loadingStatus = useAppSelector(loaderSelectors.loaderStatus);
   if (loadingStatus){
     return(
       <Spinner/>
     );
   }
+
+
   return (
     <HelmetProvider>
       <BrowserRouter>
+        <ToastContainer/>
         <Routes>
-          <Route element ={<LayoutMain favoritesCount = {favoritesCount} authStatus = {authStatus} currentUser = {user}/>}>
+          <Route element={<LayoutMain />}>
             <Route
               path={AppRoute.Main}
               element={<MainPage/>}
@@ -50,31 +54,22 @@ function App(): JSX.Element {
             <Route
               path={AppRoute.Favorites}
               element={
-                <PrivateRoute
-                  authorizationStatus={authStatus}
-                >
-                  {/* {getFavoriteOffers(offers).length > 0 ? */}
-                  {/* <FavoritePage offers = {offers}/> : */}
-                  <FavoritePage/>
-                  {/* <FavoritesEmptyPage/>} */}
+                <PrivateRoute>
+                  <FavoritePage />
                 </PrivateRoute>
               }
             />
-            <Route
-              path={AppRoute.OfferId}
-              element={<OfferPage offers = {Array.from([OFFERS_DETAIL[0]])} offersNearby = {OFFERS_NEARBY}authStatus = {authStatus} />}
-            />
-
+            <Route path={AppRoute.OfferId} element={<OfferPage/>} />
             <Route
               path={AppRoute.Login}
-              element={<LoginPage />}
+              element={
+                <PrivateRoute unAuth>
+                  <LoginPage />
+                </PrivateRoute>
+              }
             />
-
-            <Route
-              path="*"
-              element={<NotFoundPage />}
-            />
-          </Route>
+            <Route path={AppRoute.NotFound} element={<NotFoundPage />} />
+          </Route>{/* LayoutMain */}
         </Routes>
       </BrowserRouter>
     </HelmetProvider>

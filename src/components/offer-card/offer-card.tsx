@@ -38,7 +38,7 @@ export default function OfferCard (props :OfferCardProps) :JSX.Element{
       <div className= {clsx(getCardClass(variant).split(' ')[1],'cities__image-wrapper')}>
 
         <Link
-          to={`${AppRoute.Offer}/:${offerId} `}
+          to={`${AppRoute.Offer}/${offerId} `}
           state={{ offerCard: OFFERS_DETAIL[0] }}
         >
           <img className="place-card__image" src={`${previewImage}` } width={getCardSize(variant).width}
@@ -63,7 +63,7 @@ export default function OfferCard (props :OfferCardProps) :JSX.Element{
         </div>
         <h2 className="place-card__name">
           <Link
-            to={`${AppRoute.Offer}/:${offerId} `}
+            to={`${AppRoute.Offer}/${offerId} `}
             state={{ offerCard: OFFERS_DETAIL[0] }} //для отображения на карте
           >
             {title}

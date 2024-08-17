@@ -1,9 +1,10 @@
 
-import { DATA_PATH_URL, OFFERS_SLICE_NAME } from '../../../const';
+import { DATA_PATH_URL} from '../../../const';
 import { OfferPreview } from '../../../types/offer';
-import { createAppAsyncThunk } from '../../hooks/createAppAsyncThusk';
+import { createAppAsyncThunk } from '../../hooks/createAppAsyncThunk';
 
 import { loaderActions } from '../loader/loader-slice';
+import { OFFERS_SLICE_NAME } from '../slice-names';
 
 
 export const fetchOffersAction = createAppAsyncThunk<OfferPreview[], void>(
@@ -17,7 +18,7 @@ export const fetchOffersAction = createAppAsyncThunk<OfferPreview[], void>(
   }
 );
 
-// eslint-disable-next-line no-console
-console.dir(fetchOffersAction);
+// // eslint-disable-next-line no-console
+// console.dir(fetchOffersAction);
 
 

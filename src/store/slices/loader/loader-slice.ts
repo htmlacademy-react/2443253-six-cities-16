@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { LoaderStateType } from '../../types';
+import { LOADER_SLICE_NAME } from '../slice-names';
 
-const LOADER_SLICE_NAME = 'loader';
 
 const initialState : LoaderStateType = {
   loaderStatus: false,

@@ -1,9 +1,10 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { CitiesName, DEFAULT_SORT_VARIANT, OFFERS_SLICE_NAME, SortVariants } from '../../../const';
+import { CitiesName, DEFAULT_SORT_VARIANT, SortVariants } from '../../../const';
 import { OFFERS } from '../../../mocks/offers';
 import { StateType } from '../../types';
 import { OfferPreview } from '../../../types/offer';
-import { fetchOffersAction } from './offer-thunk';
+import { fetchOffersAction } from './offers-thunk';
+import { OFFERS_SLICE_NAME } from '../slice-names';
 
 
 const initialState : StateType = {
@@ -58,5 +59,5 @@ export const offersSlice = createSlice({
 
 
 export const offersSelectors = offersSlice.selectors;
-export const offersActions = offersSlice.actions;
+export const offersActions = { ...offersSlice.actions, fetchOffersAction};
 

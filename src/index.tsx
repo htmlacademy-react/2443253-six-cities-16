@@ -6,7 +6,8 @@ import App from './app/app.tsx';
 import {OFFERS} from './mocks/offers';
 import { Provider } from 'react-redux';
 import { store } from './store/index';
-import { fetchOffersAction } from './store/slices/offers/offer-thunk.ts';
+import { fetchOffersAction } from './store/slices/offers/offers-thunk.ts';
+
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -15,8 +16,9 @@ const root = ReactDOM.createRoot(
 export const setting = {
   offersCount : OFFERS.length,
 };
-
 store.dispatch(fetchOffersAction());
+
+
 root.render(
   <React.StrictMode>
     <Provider store = {store}>
