@@ -1,10 +1,12 @@
-import { User } from './user';
+import { Host } from './host';
+
 
 export type Review = {
-  id:number;
-  user: User;
+  id?:string;
+  date: string;
+  offerId?: string;
+  user: Host;
+  comment: string;
   rating: number;
-  review: string;
-  date : string;
 }
 

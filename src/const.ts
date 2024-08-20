@@ -9,7 +9,10 @@ export enum AppRoute {
   Favorites = '/favorites',
   Main = '/',
   Favorite = 'Favorite',
+  NotFound = '*',
+
 }
+
 
 export enum AuthorizationStatus {
   Auth = 'AUTH',
@@ -82,10 +85,14 @@ export const sortOffers = [
 export const BACKEND_URL = 'https://16.design.htmlacademy.pro/six-cities';
 export const REQUEST_TIMEOUT = 5000;
 
-export const HARDCORE_TOKEN = 'b2xpdmVyLmNvbm5lckBnbWFpbC5jb20=';
+export const AUTH_TOKEN = 'six-cities-token';
 
 export enum DATA_PATH_URL {
   Offers = '/offers',
+  Comments = '/comments',
+  Favorite = '/favorite',
+  Login = '/login',
+  Logout = '/logout',
 }
 
-export const OFFERS_SLICE_NAME = 'offers';
+

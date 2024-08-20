@@ -1,34 +1,62 @@
 import { Helmet } from 'react-helmet-async';
-//import { useParams } from 'react-router-dom';
-import { Offer, OfferPreview} from '../../types/offer';
 import Premium from '../../components/premium/premium';
-import { newUser } from '../../mocks/offers';
 import OfferFavoriteButton from '../../components/offer-favorite-button/offer-favorite-button';
-import { AuthorizationStatus, BookmarkSizeMap, VariantCard } from '../../const';
+import { BookmarkSizeMap, VariantCard } from '../../const';
 import ReviewsList from '../../components/reviews-list/reviews-list';
 import NewReview from '../../components/new-review/new-review';
 import Map from '../../components/map/map';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import OfferCard from '../../components/offer-card/offer-card';
 import { OfferList } from '../../components/offer-list/offer-list';
+import { useAuth } from '../../utils/use-auth';
+import { useParams } from 'react-router-dom';
+import { offerActions, offerSelectors } from '../../store/slices/offer/offer-slice';
+import { useAppSelector } from '../../store/hooks/useAppSelector';
 
-type OfferProps ={
-  offers : Offer[];
-  offersNearby : OfferPreview[];
-  authStatus:AuthorizationStatus;
-}
+import { reviewsActions, reviewsSelectors } from '../../store/slices/reviews/reviews-slice';
+import Spinner from '../../components/spinner/spinner';
+import { offersSelectors } from '../../store/slices/offers/offers-slice';
+import { RequestStatus } from '../../services/api';
+import { useActionCreators } from '../../store/hooks/useActionCreators';
+import NotFoundPage from '../not-found-page/not-found-page';
 
-function OfferPage({offers,offersNearby,authStatus} : OfferProps): JSX.Element {
 
+function OfferPage(): JSX.Element {
   //Получим ID карточки места через useParams()
-  //const {offerId} = useParams();
+  const {offerId} = useParams();
+  const isAuth = useAuth();
+  const {fetchReviews} = useActionCreators(reviewsActions);
+  const {fetchOffer,fetchNearBy} = useActionCreators(offerActions);
+  useEffect(() => {
+    //Получим данные о выбранном предложении, предложениях неподалеку и отзывах
+    Promise.all([fetchOffer(offerId as string),
+      fetchNearBy(offerId as string),
+      fetchReviews(offerId as string)]);
+  }, [fetchOffer,fetchNearBy,fetchReviews,offerId]);
 
   //State по выбору карточки предложения неподалеку для отображения на карте
   const [selectedNearbyCardId, setSelectedNearbyId] = useState('');
 
+  const offerCard = useAppSelector(offerSelectors.offer);
+  const offersNearby = useAppSelector(offerSelectors.nearbyOffers);
+  const offerReviews = useAppSelector(reviewsSelectors.reviews);
+  const offerStatus = useAppSelector(offerSelectors.requestStatus);
+  const activeCardId = useAppSelector(offersSelectors.activeId);
 
-  const offerCard = offers[0];
-  const {city,title,images,isPremium,isFavorite,rating,type,bedrooms,maxAdults,goods,host,description,price,reviews} = offerCard;
+  useEffect(() => {
+    setSelectedNearbyId(activeCardId);
+  },[activeCardId]);
+
+
+  if (offerStatus === RequestStatus.Loading) {
+    return(<Spinner/>);
+  }
+
+  if (offerStatus === RequestStatus.Failed || !offerCard) {
+    return(<NotFoundPage/>);
+  }
+
+  const {city,title,images,isPremium,isFavorite,rating,type,bedrooms,maxAdults,goods,host,description,price} = offerCard;
 
   return (
     <div className="page">
@@ -56,7 +84,10 @@ function OfferPage({offers,offersNearby,authStatus} : OfferProps): JSX.Element {
                 <h1 className="offer__name">
                   {title}
                 </h1>
-                <OfferFavoriteButton width={BookmarkSizeMap.large.width} height={BookmarkSizeMap.large.height} isFavorite = {isFavorite} isPreview ={false}/>
+                <OfferFavoriteButton width={BookmarkSizeMap.large.width} height={BookmarkSizeMap.large.height}
+                  isFavorite = {isFavorite} isPreview ={false}
+                  offerId={offerId as string}
+                />
               </div>
               <div className="offer__rating rating">
                 <div className="offer__stars rating__stars">
@@ -112,19 +143,12 @@ function OfferPage({offers,offersNearby,authStatus} : OfferProps): JSX.Element {
                 </div>
               </div>
               <section className="offer__reviews reviews">
-                <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{reviews.length}</span></h2>
+                <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{offerReviews.length}</span></h2>
 
-                <ReviewsList reviews = {reviews}/>
+                <ReviewsList reviews = {offerReviews}/>
 
-                {authStatus === AuthorizationStatus.Auth &&
-                <NewReview
-                  onReviewSubmit={(newReview) => {
-                    //Здесь добавим новый отзыв для текущего пользователя в state страницы выбранного места: пока не реализовано
-                    reviews.push({id:Math.random(), user:newUser,rating:newReview.rating,review:newReview.review,date:''});
-                    // eslint-disable-next-line no-console
-                    //console.log(reviews);
-                  }}
-                />}
+                {isAuth &&
+                <NewReview offerId={offerId as string}/>}
               </section>
             </div>
           </div>
@@ -150,9 +174,6 @@ function OfferPage({offers,offersNearby,authStatus} : OfferProps): JSX.Element {
                   key={dataCard.id}
                   offerCard={dataCard}
                   variant={VariantCard.NearbyOffer}
-                  onOverCard={(cardId) => {
-                    setSelectedNearbyId(cardId);
-                  }}
                 />
               )}
             </OfferList>
@@ -168,3 +189,5 @@ function OfferPage({offers,offersNearby,authStatus} : OfferProps): JSX.Element {
 
 }
 export default OfferPage;
+
+

@@ -1,6 +1,6 @@
 import { CitiesName } from '../const';
 import { Offer, OfferPreview } from '../types/offer';
-import { User } from '../types/user';
+import { REVIEWS } from './reviews';
 
 
 export const OFFERS: OfferPreview[] = [];
@@ -2817,34 +2817,24 @@ export const OFFERS_DETAIL: Offer[] = [{
   //Detail+
   bedrooms: 5,
   maxAdults: 7,
-  reviews:[
-    {
-      id:1,
-      user : {id:1, email:'', token:'', name: 'Max', avatarUrl:'img/avatar-max.jpg',isPro:false},
-      rating : 4,
-      review: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.',
-      date: 'May 2020'
-    },
-    {
-      id:2,
-      user : {id:1, email:'', token:'', name: 'Diman', avatarUrl:'img/avatar-max.jpg',isPro:false},
-      rating : 5,
-      review: 'Nice place',
-      date: 'May 2024'
-    }
-  ]
+  reviews:REVIEWS
+  // reviews:[
+  //   {
+  //     id:1,
+  //     user : {id:1, email:'', token:'', name: 'Max', avatarUrl:'img/avatar-max.jpg',isPro:false},
+  //     rating : 4,
+  //     review: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.',
+  //     date: 'May 2020'
+  //   },
+  //   {
+  //     id:2,
+  //     user : {id:1, email:'', token:'', name: 'Diman', avatarUrl:'img/avatar-max.jpg',isPro:false},
+  //     rating : 5,
+  //     review: 'Nice place',
+  //     date: 'May 2024'
+  //   }
+  // ]
 }];
-
-export const newUser: User = {
-  id: Math.random(),
-  name : 'Дима',
-  email : 'Diman@gmail.com',
-  token: '',
-  avatarUrl:'',
-  isPro:false
-
-};
-
 
 export const OFFERS_NEARBY: OfferPreview[] = [
   {
