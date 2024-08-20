@@ -6,25 +6,28 @@ import Premium from '../premium/premium';
 import OfferFavoriteButton from '../offer-favorite-button/offer-favorite-button';
 import clsx from 'clsx';
 import { getCardClass, getCardSize } from '../../utils/utils';
+import { useActionCreators } from '../../store/hooks/useActionCreators';
+
+import { offersActions } from '../../store/slices/offers/offers-slice';
 
 
 export type OfferCardProps = {
   offerCard: OfferPreview;
   variant : string;
-  onOverCard?: (cardId : string) => void;
 }
 
 export default function OfferCard (props :OfferCardProps) :JSX.Element{
-  const {offerCard,variant,onOverCard} = props;
+  const {offerCard,variant} = props;
   const {id,title, type, price, isFavorite,isPremium,rating,previewImage} = offerCard;
   const offerId:string = id;
 
-
-  //Обработчик по наведению
+  const {setActiveId} = useActionCreators(offersActions);
+  //Обработчики по наведению
   const mouseOverHandler = () => {
-    if (onOverCard){
-      onOverCard(id);
-    }
+    setActiveId(id);
+  };
+  const mouseLeaveHandler = () => {
+    setActiveId('');
   };
 
   return(
@@ -32,6 +35,7 @@ export default function OfferCard (props :OfferCardProps) :JSX.Element{
     <article className={clsx(getCardClass(variant).split(' ')[0], 'place-card')}
     //изменяем state состояние при наведении
       onMouseOver= {mouseOverHandler}
+      onMouseLeave= {mouseLeaveHandler}
     >
       {(variant !== VariantCard.NearbyOffer.toString()) && <Premium isPremium ={isPremium} typeMark = {'place-card__mark'}/>}
 
@@ -53,7 +57,10 @@ export default function OfferCard (props :OfferCardProps) :JSX.Element{
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
 
-          <OfferFavoriteButton width={BookmarkSizeMap.small.width} height={BookmarkSizeMap.small.height} isFavorite={isFavorite} isPreview/>
+          <OfferFavoriteButton width={BookmarkSizeMap.small.width} height={BookmarkSizeMap.small.height}
+            isFavorite={isFavorite} isPreview
+            offerId={offerId}
+          />
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">

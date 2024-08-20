@@ -19,12 +19,10 @@ import { userActions } from '../store/slices/user/user-slice';
 
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Spinner from '../components/spinner/spinner';
-import { useAppSelector } from '../store/hooks/useAppSelector';
-import { loaderSelectors } from '../store/slices/loader/loader-slice';
+import { useAuth } from '../utils/use-auth';
 
 function App(): JSX.Element {
-
+  const isAuth = useAuth();
   const {checkAuth} = useActionCreators(userActions);
   useEffect(() => {
     checkAuth();
@@ -32,21 +30,12 @@ function App(): JSX.Element {
 
   //const {authStatus, user} = initAppState;
   //saveToken(HARDCORE_TOKEN);
-  //Спиннер
-  const loadingStatus = useAppSelector(loaderSelectors.loaderStatus);
-  if (loadingStatus){
-    return(
-      <Spinner/>
-    );
-  }
-
-
   return (
     <HelmetProvider>
       <BrowserRouter>
         <ToastContainer/>
         <Routes>
-          <Route element={<LayoutMain />}>
+          <Route element={<LayoutMain isAuth = {isAuth}/>}>
             <Route
               path={AppRoute.Main}
               element={<MainPage/>}

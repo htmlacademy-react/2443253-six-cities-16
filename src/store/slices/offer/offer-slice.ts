@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RequestStatus } from '../../../services/api';
 import { OFFER_SLICE_NAME } from '../slice-names';
 import { fetchOffer, fetchNearBy } from './offer-thunk';
-import { OfferState } from '../../types';
+import { OfferState} from '../../types';
 
 
 const initialState: OfferState = {
@@ -32,6 +32,12 @@ export const offerSlice = createSlice({
         state.info = action.payload;
         state.status = RequestStatus.Success;
       })
+      .addCase(
+        fetchOffer.pending,
+        (state) => {
+          state.status = RequestStatus.Loading;
+        }
+      )
       .addCase(fetchNearBy.fulfilled, (state, action) => {
         state.nearby = action.payload;
       });
@@ -39,8 +45,9 @@ export const offerSlice = createSlice({
   selectors: {
     nearbyOffers: (state) => state.nearby,
     offer: (state) => state.info,
+    requestStatus: (state) => state.status
   },
 });
 
-export const offerActions = offerSlice.actions;
+export const offerActions = {...offerSlice.actions,fetchOffer,fetchNearBy};
 export const offerSelectors = offerSlice.selectors;

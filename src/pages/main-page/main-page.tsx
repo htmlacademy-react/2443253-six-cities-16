@@ -3,36 +3,60 @@ import { Helmet } from 'react-helmet-async';
 
 import { OfferList } from '../../components/offer-list/offer-list';
 import {sortOffers, VariantCard } from '../../const';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import takeCity from '../../utils/utils';
 
 import Map from '../../components/map/map';
 import OfferCard from '../../components/offer-card/offer-card';
 
-import {offersSelectors } from '../../store/slices/offers/offers-slice';
+import {offersActions, offersSelectors } from '../../store/slices/offers/offers-slice';
 import { useAppSelector } from '../../store/hooks/useAppSelector';
 
 import { Locations } from '../../components/locations/locations';
 import SortVariantSelector from '../../components/sort-variants/sort-variants';
 import clsx from 'clsx';
 import MainPageEmpty from '../main-empty-page/main-empty-page';
+import Spinner from '../../components/spinner/spinner';
+import { useActionCreators } from '../../store/hooks/useActionCreators';
+import { RequestStatus } from '../../services/api';
 
 export default function MainPage(): JSX.Element {
+
 
   const currentCity = useAppSelector(offersSelectors.city);
   const currentSortVariant = useAppSelector(offersSelectors.sortVariant);
   const offers = useAppSelector(offersSelectors.offers);
+  const offersStatus = useAppSelector(offersSelectors.requestStatus);
+  const activeCardId = useAppSelector(offersSelectors.activeId);
+  const { fetchOffersAction } = useActionCreators(offersActions);
 
+  //State по выбору карточки предложения для подсветки мест на карте
+  const [selectedCardId, setSelectedId] = useState('');
 
+  useEffect(() => {
+    setSelectedId(activeCardId);
+  },[activeCardId]);
+
+  //Получаем список предложений
+  useEffect(() => {
+    fetchOffersAction();
+  },[]);
+
+  //Спиннер
+  if (offersStatus === RequestStatus.Loading || (!offers && !currentCity && !currentSortVariant)) {
+    return(
+      <Spinner/>
+    );
+  }
+
+  //Фильтруем предложения по текущему городу
   let offersByCity = offers.filter((offer) => offer.city.name === currentCity) ;
+  //Отсортируем по текущему варианту сортировки
   const sortedOffers = sortOffers.find((variant) => variant.sortVariant === currentSortVariant)?.sort(offersByCity);
   if(sortedOffers) {
     offersByCity = sortedOffers;
   }
-
-  //State по выбору карточки предложения для подсветки мест на карте
-  const [selectedCardId, setSelectedId] = useState('');
 
   //Компонент
   return (
@@ -63,9 +87,6 @@ export default function MainPage(): JSX.Element {
                       key={dataCard.id}
                       offerCard={dataCard}
                       variant={VariantCard.MainOffer}
-                      onOverCard={(activeCardId) => {
-                        setSelectedId(activeCardId);
-                      }}
                     />
                   )}
                 </OfferList>

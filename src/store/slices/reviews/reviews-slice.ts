@@ -22,9 +22,10 @@ export const reviewsSlice = createSlice({
         state.items = action.payload;
         state.status = RequestStatus.Success;
       })
-      .addCase(postReview.fulfilled, (state, action) => {
-        state.items.push(action.payload);
-      })
+      .addCase(postReview.fulfilled,
+        (state, action) => {
+          state.items.push(action.payload);
+        })
       .addMatcher(isActionPending(REVIEWS_SLICE_NAME), (state) => {
         state.status = RequestStatus.Loading;
       })
@@ -34,5 +35,10 @@ export const reviewsSlice = createSlice({
   },
   selectors: {
     reviews: (state) => state.items,
+    RequestStatus: (state) => state.status,
   },
 });
+
+export const reviewsActions = {...reviewsSlice.actions,fetchReviews,postReview};
+export const reviewsSelectors = {...reviewsSlice.selectors};
+

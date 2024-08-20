@@ -7,8 +7,9 @@ import { Review } from '../types/review';
 export type StateType = {
   city :CitiesName;
   offers: OfferPreview[];
+  activeId: string;
   sortVariant: SortVariants;
-  requestStatus:string;
+  requestStatus:RequestStatus;
 }
 
 export type UserStateType = {

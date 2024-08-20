@@ -40,7 +40,6 @@ export const favoritesSlice = createSlice({
   selectors: {
     favorites: (state) => state.items,
     favoriteStatus: (state) => state.status,
-
   },
 });
 
