@@ -152,7 +152,7 @@ function OfferPage(): JSX.Element {
               </section>
             </div>
           </div>
-          {/* Карта предложений неподалеку */}
+          {/* Карта*/}
           <Map
             offers={offersNearby}
             activeCity={city}
