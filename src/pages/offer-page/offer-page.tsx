@@ -8,7 +8,7 @@ import Map from '../../components/map/map';
 import { useEffect, useState } from 'react';
 import OfferCard from '../../components/offer-card/offer-card';
 import { OfferList } from '../../components/offer-list/offer-list';
-import { useAuth } from '../../utils/use-auth';
+import { useAuth } from '../../hooks/use-auth';
 import { useParams } from 'react-router-dom';
 import { offerActions, offerSelectors } from '../../store/slices/offer/offer-slice';
 import { useAppSelector } from '../../store/hooks/useAppSelector';

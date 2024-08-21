@@ -8,11 +8,14 @@ import { OfferFavoriteList } from '../../components/offer-favorite-list/offer-fa
 import { offersActions, offersSelectors } from '../../store/slices/offers/offers-slice';
 import { useAppDispatch } from '../../store/hooks/useAppDispatch';
 import { useAppSelector } from '../../store/hooks/useAppSelector';
+import getFavoriteOffers from '../../utils/offers';
+import FavoritesEmptyPage from '../favorites-empty-page/favorites-empty-page';
 
 
 function FavoritePlacesForCity ({city,offers} : {city :City; offers:OfferPreview[]}){
 
   const dispatch = useAppDispatch();
+
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [_searchParams,setSearchParams] = useSearchParams();
@@ -48,7 +51,11 @@ export default function FavoritePage(): JSX.Element {
   const offers = useAppSelector(offersSelectors.offers);
   //Массив городов
   const cities = Array.from(new Set(offers.map((offer) => offer.city.name)));
-
+  //Фильтруем массив карточек признаку избранное
+  const favoriteOffers = getFavoriteOffers(offers);
+  if(favoriteOffers.length === 0){
+    return(<FavoritesEmptyPage/>);
+  }
 
   return (
     <div className="page">
@@ -62,14 +69,18 @@ export default function FavoritePage(): JSX.Element {
             <h1 className="favorites__title">Saved listing</h1>
             <ul className="favorites__list">
               {
-                cities.map((item) =>
-                  (
-                    <FavoritePlacesForCity
-                      key={item}
-                      city = {takeCity(item)}
-                      offers={offers}
-                    />)
+                cities.map((item) =>{
+                  const favoriteOffersForCity = favoriteOffers.filter((offer) => offer.city.name === item);
+                  if (favoriteOffersForCity.length > 0){
+                    return(
 
+                      <FavoritePlacesForCity
+                        key={item}
+                        city = {takeCity(item)}
+                        offers={offers}
+                      />);
+                  }
+                }
                 )
               }
             </ul>

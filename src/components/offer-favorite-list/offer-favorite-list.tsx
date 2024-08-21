@@ -11,14 +11,14 @@ type OfferFavoriteListProps = {
 
 export function OfferFavoriteList ({offers} : OfferFavoriteListProps){
 
-
   //Фильтруем массив карточек признаку избранное
-  const offersVisible = getFavoriteOffers(offers);
+  const offersVisibleForCity = getFavoriteOffers(offers);
+
 
   return(
     <>
       {
-        offersVisible.map((item) =>
+        offersVisibleForCity.map((item) =>
 
           (
             <OfferCard

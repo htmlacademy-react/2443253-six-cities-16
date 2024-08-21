@@ -1,7 +1,7 @@
 import {OfferPreview} from '../../types/offer';
 import { Link } from 'react-router-dom';
 import { AppRoute, BookmarkSizeMap, VariantCard} from '../../const';
-import { OFFERS_DETAIL } from '../../mocks/offers';
+
 import Premium from '../premium/premium';
 import OfferFavoriteButton from '../offer-favorite-button/offer-favorite-button';
 import clsx from 'clsx';
@@ -43,7 +43,6 @@ export default function OfferCard (props :OfferCardProps) :JSX.Element{
 
         <Link
           to={`${AppRoute.Offer}/${offerId} `}
-          state={{ offerCard: OFFERS_DETAIL[0] }}
         >
           <img className="place-card__image" src={`${previewImage}` } width={getCardSize(variant).width}
             height={getCardSize(variant).height} alt="Place image"
@@ -71,7 +70,6 @@ export default function OfferCard (props :OfferCardProps) :JSX.Element{
         <h2 className="place-card__name">
           <Link
             to={`${AppRoute.Offer}/${offerId} `}
-            state={{ offerCard: OFFERS_DETAIL[0] }} //для отображения на карте
           >
             {title}
           </Link>

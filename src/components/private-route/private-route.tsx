@@ -1,6 +1,6 @@
 import {Navigate, useLocation} from 'react-router-dom';
 import {AppRoute, AuthorizationStatus} from '../../const';
-import { useAuth } from '../../utils/use-auth';
+import { useAuth } from '../../hooks/use-auth';
 import Spinner from '../spinner/spinner';
 import { useAppSelector } from '../../store/hooks/useAppSelector';
 import { userSelectors } from '../../store/slices/user/user-slice';

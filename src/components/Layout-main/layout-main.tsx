@@ -1,6 +1,6 @@
 
 import { AppRoute, LayOutClasses } from '../../const';
-import { useFavoriteCount } from '../../utils/use-favorites';
+import { useFavoriteCount } from '../../hooks/use-favorites';
 import { Header } from '../header/header';
 import {Outlet, useLocation} from 'react-router-dom';
 
