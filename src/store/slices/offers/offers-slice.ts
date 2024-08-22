@@ -1,6 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { CitiesName, DEFAULT_SORT_VARIANT, SortVariants } from '../../../const';
-import { OFFERS } from '../../../mocks/offers';
 import { StateType } from '../../types';
 import { OfferPreview } from '../../../types/offer';
 import { fetchOffersAction } from './offers-thunk';
@@ -10,7 +9,7 @@ import { RequestStatus } from '../../../services/api';
 
 const initialState : StateType = {
   city: CitiesName.Paris,
-  offers: OFFERS ,
+  offers: [] ,
   activeId: '' ,
   sortVariant : DEFAULT_SORT_VARIANT,
   requestStatus: RequestStatus.Idle

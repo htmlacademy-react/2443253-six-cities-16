@@ -2,13 +2,12 @@ import { createSlice } from '@reduxjs/toolkit';
 import { RequestStatus } from '../../../services/api';
 import { REVIEWS_SLICE_NAME } from '../slice-names';
 import { fetchReviews, postReview } from './reviews-thunk';
-import { REVIEWS } from '../../../mocks/reviews';
 import { isActionPending, isActionRejected } from '../../../utils/redux';
 import { ReviewsState } from '../../types';
 
 
 const initialState: ReviewsState = {
-  items: REVIEWS,
+  items: [],
   status: RequestStatus.Idle
 };
 

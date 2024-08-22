@@ -19,7 +19,7 @@ import { userActions } from '../store/slices/user/user-slice';
 
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useAuth } from '../utils/use-auth';
+import { useAuth } from '../hooks/use-auth';
 
 function App(): JSX.Element {
   const isAuth = useAuth();
@@ -28,8 +28,6 @@ function App(): JSX.Element {
     checkAuth();
   }, []);
 
-  //const {authStatus, user} = initAppState;
-  //saveToken(HARDCORE_TOKEN);
   return (
     <HelmetProvider>
       <BrowserRouter>
