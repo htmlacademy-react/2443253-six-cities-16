@@ -7,7 +7,6 @@ import FavoritePage from '../pages/favorites-page/favorites-page';
 import NotFoundPage from '../pages/not-found-page/not-found-page';
 import LoginPage from '../pages/login-page/login-page';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import PrivateRoute from '../components/private-route/private-route';
 import LayoutMain from '../components/layout-main/layout-main';
 import { HelmetProvider } from 'react-helmet-async';
