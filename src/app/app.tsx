@@ -8,7 +8,7 @@ import NotFoundPage from '../pages/not-found-page/not-found-page';
 import LoginPage from '../pages/login-page/login-page';
 
 import PrivateRoute from '../components/private-route/private-route';
-import LayoutMain from '../components/layout-main/layout-main';
+import Layout from '../components/layout/layout.tsx';
 import { HelmetProvider } from 'react-helmet-async';
 
 
@@ -32,7 +32,7 @@ function App(): JSX.Element {
       <BrowserRouter>
         <ToastContainer/>
         <Routes>
-          <Route element={<LayoutMain isAuth = {isAuth}/>}>
+          <Route element={<Layout isAuth = {isAuth}/>}>
             <Route
               path={AppRoute.Main}
               element={<MainPage/>}

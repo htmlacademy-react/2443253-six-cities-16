@@ -29,7 +29,7 @@ export default function ReviewsList ({reviews}:ReviewsListProps){
                 </div>
               </div>
               <p className="reviews__text">
-                {review.review}
+                {review.comment}
               </p>
               <time className="reviews__time" dateTime={review.date}>
                 {review.date}

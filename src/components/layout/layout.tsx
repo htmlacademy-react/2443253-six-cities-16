@@ -4,7 +4,7 @@ import { useFavoriteCount } from '../../hooks/use-favorites';
 import { Header } from '../header/header';
 import {Outlet, useLocation} from 'react-router-dom';
 
-type LayoutMainProps = {
+type LayoutProps = {
   isAuth : boolean;
 }
 
@@ -24,7 +24,7 @@ const getClassesForLayout = (pageRoute : AppRoute,favoritesCount : number):strin
 };
 
 
-export default function LayoutMain ({isAuth}:LayoutMainProps) :JSX.Element {
+export default function Layout ({isAuth}:LayoutProps) :JSX.Element {
   const {pathname : pathName} = useLocation();
   const favoritesCount = useFavoriteCount();
 
