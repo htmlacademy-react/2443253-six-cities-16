@@ -1,5 +1,5 @@
 import { AppRoute } from '../../const';
-import { LayOutMainAuth, LayOutMainNotAuth } from '../layout-main/layout-main-auth';
+import { LayOutMainAuth, LayOutMainNotAuth } from '../layout/layout-auth';
 import Logo from '../logo/logo';
 
 

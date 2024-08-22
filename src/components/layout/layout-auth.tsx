@@ -5,7 +5,6 @@ import { userActions } from '../../store/slices/user/user-slice';
 
 
 export const LayOutMainAuth = (favoritesCount: number) => {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const { logout } = useActionCreators(userActions);
   return (
     <>

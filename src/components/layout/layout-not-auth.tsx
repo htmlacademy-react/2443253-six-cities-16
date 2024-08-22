@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
 
-export function LayOutMainNotAuth ():JSX.Element {
+export function LayOutNotAuth ():JSX.Element {
   return(
     <li className="header__nav-item user">
       <Link
