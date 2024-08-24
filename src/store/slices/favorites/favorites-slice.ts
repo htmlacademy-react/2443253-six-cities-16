@@ -1,14 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { RequestStatus } from '../../../services/api';
-import { OfferPreview } from '../../../types/offer';
+
 import { FAVORITES_SLICE_NAME } from '../slice-names';
-import { FavoritesStatus } from '../../types';
+import { FavoritesState, FavoritesStatus } from '../../types';
 import { fetchFavorites, changeFavorites } from './favorites-thunk';
 
-type FavoritesState = {
-  items: OfferPreview[];
-  status: RequestStatus;
-};
 
 const initialState: FavoritesState = {
   items: [],

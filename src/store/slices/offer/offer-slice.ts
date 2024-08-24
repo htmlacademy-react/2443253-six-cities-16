@@ -15,10 +15,6 @@ export const offerSlice = createSlice({
   name: OFFER_SLICE_NAME,
   initialState,
   reducers: {
-    clear: (state) => {
-      state.info = null;
-      state.nearby = [];
-    },
     updateOffer: (state, action: PayloadAction<string>) => {
       state.info =
         state.info?.id === action.payload

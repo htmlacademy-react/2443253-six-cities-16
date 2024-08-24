@@ -1,5 +1,6 @@
 import { AppRoute } from '../../const';
-import { LayOutMainAuth, LayOutMainNotAuth } from '../layout/layout-auth';
+import { LayOutAuth} from '../layout/layout-auth';
+import { LayOutNotAuth } from '../layout/layout-not-auth';
 import Logo from '../logo/logo';
 
 
@@ -20,7 +21,7 @@ export function Header({favoritesCount,isAuth,pathName}:HeaderProps) {
           {(pathName !== AppRoute.Login) &&
             <nav className="header__nav">
               <ul className="header__nav-list">
-                {isAuth ? LayOutMainAuth(favoritesCount) : LayOutMainNotAuth()}
+                {isAuth ? LayOutAuth(favoritesCount) : LayOutNotAuth()}
               </ul>
             </nav>}
         </div>

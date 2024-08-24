@@ -4,7 +4,7 @@ import { useActionCreators } from '../../store/hooks/useActionCreators';
 import { userActions } from '../../store/slices/user/user-slice';
 
 
-export const LayOutMainAuth = (favoritesCount: number) => {
+export const LayOutAuth = (favoritesCount: number) => {
   const { logout } = useActionCreators(userActions);
   return (
     <>
