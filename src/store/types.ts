@@ -3,6 +3,7 @@ import { AuthorizationStatus, CitiesName, SortVariants } from '../const';
 import { RequestStatus } from '../services/api';
 import { Offer, OfferPreview } from '../types/offer';
 import { Review } from '../types/review';
+import { User } from '../types/user';
 
 export type StateType = {
   city :CitiesName;
@@ -15,6 +16,12 @@ export type StateType = {
 export type UserStateType = {
   authStatus : AuthorizationStatus;
 }
+
+export type UserState = {
+  info: User | null;
+  status: AuthorizationStatus;
+};
+
 
 export type LoaderStateType = {
   loaderStatus : boolean;
@@ -43,5 +50,10 @@ export type OfferState = {
 
 export type ReviewsState = {
   items: Review[];
+  status: RequestStatus;
+};
+
+export type FavoritesState = {
+  items: OfferPreview[];
   status: RequestStatus;
 };
