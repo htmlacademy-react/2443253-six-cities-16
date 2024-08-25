@@ -1,6 +1,11 @@
 import { useState } from 'react';
 import { useActionCreators } from '../../store/hooks/useActionCreators';
-import { reviewsActions } from '../../store/slices/reviews/reviews-slice';
+import { reviewsActions, reviewsSelectors } from '../../store/slices/reviews/reviews-slice';
+import { useAppSelector } from '../../store/hooks/useAppSelector';
+import { RequestStatus } from '../../services/api';
+import { toast } from 'react-toastify';
+import { RATING } from '../../const';
+
 
 type NewReview ={
     comment:string;
@@ -41,27 +46,37 @@ function RatingStar ({newReview,rating,onRatingChange} : RatingStarProps){
 
 export default function NewReview ({offerId}:NewReviewProps){
 
+  const reviewsStatus = useAppSelector(reviewsSelectors.reviewsStatus);
+
   const {postReview} = useActionCreators(reviewsActions);
-  const [newReview, setReviewData] = useState({comment:'', rating:5});
+  const [newReview, setReviewData] = useState({comment:'', rating:0});
+
+
+  const isButtonSubmitDisabled = (reviewsStatus === RequestStatus.Loading) || !newReview.comment || !newReview.rating;
 
   const handleReviewChange = (evt: { target: { name: string; value: string } }) => {
     const {value} = evt.target;
     setReviewData({...newReview, comment: value});
   };
   //Обработчик добавления отзыва
-  const handleReviewSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const onFormSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    postReview({body:newReview,offerId:offerId});
+    postReview({body:newReview,offerId:offerId})
+      .unwrap().then(() => {
+        setReviewData({comment:'', rating:0});
+        toast.success('Your review has been submitted');
+      })
+      .catch(() => toast.error('Error adding review'));
   };
 
   return(
     <form className="reviews__form form" action="#" method="post"
-      onSubmit={handleReviewSubmit}
+      onSubmit={onFormSubmit}
     >
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
       <div className="reviews__rating-form form__rating">
         {
-          [5,4,3,2,1].map((item) => (
+          RATING.map((item) => (
             <RatingStar
               key = {item}
               newReview={newReview}
@@ -86,13 +101,10 @@ export default function NewReview ({offerId}:NewReviewProps){
                       To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">50 characters</b>.
         </p>
         {
-          newReview.comment || newReview.rating ? (
-            <button className="reviews__submit form__submit button" type="submit" >Submit
-            </button>)
-            :
-            (
-              <button className="reviews__submit form__submit button" type="submit" disabled> Submit
-              </button>)
+          <button className="reviews__submit form__submit button" type="submit"
+            disabled = {isButtonSubmitDisabled}
+          >Submit
+          </button>
         }
 
       </div>
@@ -100,3 +112,4 @@ export default function NewReview ({offerId}:NewReviewProps){
 
   );
 }
+

@@ -33,8 +33,8 @@ export const reviewsSlice = createSlice({
       });
   },
   selectors: {
-    reviews: (state) => state.items,
-    RequestStatus: (state) => state.status,
+    reviews: (state:ReviewsState) => state.items,
+    reviewsStatus: (state:ReviewsState) => state.status,
   },
 });
 

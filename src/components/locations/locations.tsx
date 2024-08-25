@@ -4,6 +4,7 @@ import { useAppDispatch } from '../../store/hooks/useAppDispatch';
 import { useAppSelector } from '../../store/hooks/useAppSelector';
 import { offersActions, offersSelectors } from '../../store/slices/offers/offers-slice';
 import { useSearchParams } from 'react-router-dom';
+import clsx from 'clsx';
 
 export function Locations(): JSX.Element {
 
@@ -37,8 +38,8 @@ export function Locations(): JSX.Element {
         <ul className="locations__list tabs__list">
           {Object.values(CitiesName).map((city) => (
             <li key={city} className="locations__item">
-              <a className="locations__item-link tabs__item" href="#"
-                style = {city === currentCity ? {border : '1px solid'} : {border : ''}}
+              <a className={clsx('locations__item-link','tabs__item',(city === currentCity) && 'tabs__item--active')}
+                href="#"
                 onClick = {(evt) => onChangeCityClickHandler(evt,city)}
               >
                 <span>{city}</span>

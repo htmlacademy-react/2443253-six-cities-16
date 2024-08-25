@@ -10,6 +10,10 @@ import { useAppDispatch } from '../../store/hooks/useAppDispatch';
 import { useAppSelector } from '../../store/hooks/useAppSelector';
 import getFavoriteOffers from '../../utils/offers';
 import FavoritesEmptyPage from '../favorites-empty-page/favorites-empty-page';
+import { useEffect } from 'react';
+import { RequestStatus } from '../../services/api';
+import Spinner from '../../components/spinner/spinner';
+import { useActionCreators } from '../../store/hooks/useActionCreators';
 
 
 function FavoritePlacesForCity ({city,offers} : {city :City; offers:OfferPreview[]}){
@@ -48,9 +52,23 @@ function FavoritePlacesForCity ({city,offers} : {city :City; offers:OfferPreview
 }
 
 export default function FavoritePage(): JSX.Element {
+
+  const { fetchOffersAction } = useActionCreators(offersActions);
+  //Получаем список предложений
+  useEffect(() => {
+    fetchOffersAction();
+  },[]);
   const offers = useAppSelector(offersSelectors.offers);
+  const offersStatus = useAppSelector(offersSelectors.requestStatus);
+  if (offersStatus === RequestStatus.Loading || (!offers)){
+    return (<Spinner/>);
+
+  }
+
   //Массив городов
   const cities = Array.from(new Set(offers.map((offer) => offer.city.name)));
+
+
   //Фильтруем массив карточек признаку избранное
   const favoriteOffers = getFavoriteOffers(offers);
   if(favoriteOffers.length === 0){
