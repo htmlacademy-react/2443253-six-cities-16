@@ -34,9 +34,10 @@ export const offerSlice = createSlice({
           state.status = RequestStatus.Loading;
         }
       )
-      .addCase(fetchNearBy.fulfilled, (state, action) => {
-        state.nearby = action.payload;
-      });
+      .addCase(fetchNearBy.fulfilled,
+        (state, action) => {
+          state.nearby = action.payload;
+        });
   },
   selectors: {
     nearbyOffers: (state) => state.nearby,

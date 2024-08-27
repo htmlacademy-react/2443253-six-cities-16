@@ -2,6 +2,7 @@ import { CitiesName } from '../const';
 import { Offer, OfferPreview } from '../types/offer';
 import { User } from '../types/user';
 
+//Моки для тестов
 export const mockOfferId : string = 'a806029d-a113-4c68-9ce6-c3c249c6ab78';
 
 export const mockOffersPreview: OfferPreview[] = [

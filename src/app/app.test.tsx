@@ -1,16 +1,17 @@
-// import { toBeInTheDocument } from '@testing-library/jest-dom/matchers';
-// import { AppRoute } from '../const';
-// import App from './app';
-// import { JSX } from 'react/jsx-runtime';
+import { AppRoute } from '../const';
+import App from './app';
+import { renderWithRouterAndRedux } from '../mocks/mock-component';
+import { waitFor,screen } from '@testing-library/react';
 
-// describe('App',()=>{
-//   it('should gorward to the main page',async()=>{
-//     const mainPageTestId = 'main-page';
-//     renderWithRouterAndRedux(<App/>,{route:AppRoute.Main});
-//     await waitFor(()=>expect(screen.getByTestId(mainPageTestId)).toBeInTheDocument());
-//   });
-//   it('should forward to the login page',async()=>{
-//     const mainPageTestId = 'main-page';
-//     renderWithRouterAndRedux(<App/>,{route:AppRoute.Login});
-//     await waitFor(()=>expect(screen.getByTestId(mainPageTestId)).toBeInTheDocument());
-//   });
+describe('App',()=>{
+  it('should gorward to the main page',async()=>{
+    const mainPageTestId = 'main-page';
+    renderWithRouterAndRedux(<App/>,{route:AppRoute.Main});
+    await waitFor(()=>expect(screen.getByTestId(mainPageTestId)).toBeInTheDocument());
+  });
+  it('should forward to the login page',async()=>{
+    const mainPageTestId = 'main-page';
+    renderWithRouterAndRedux(<App/>,{route:AppRoute.Login});
+    await waitFor(()=>expect(screen.getByTestId(mainPageTestId)).toBeInTheDocument());
+  });
+});
