@@ -1,7 +1,7 @@
 
 import { useEffect, useRef } from 'react';
 import useMap from './use-map.ts';
-import { OfferPreview } from '../../types/offer.js';
+import { Offer, OfferPreview } from '../../types/offer.js';
 import { City } from '../../types/city.js';
 import { URL_MARKER_DEFAULT, URL_MARKER_CURRENT } from '../../const.ts';
 import { Icon, layerGroup, Marker} from 'leaflet';
@@ -10,7 +10,7 @@ import clsx from 'clsx';
 
 
 type MapProps ={
-  offers:OfferPreview[];
+  offers:Array<OfferPreview|Offer>;
   activeCity:City;
   selectedCardId: string;
   extraHeight:string;

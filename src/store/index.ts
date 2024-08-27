@@ -6,18 +6,24 @@ import { createAPI } from '../services/api.ts';
 
 export const api = createAPI();
 
-
-export const store = configureStore({
-  reducer: rootReducers,
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({
-      thunk: {
-        extraArgument: api,
-      },
-    }),
-});
-
-
-export type RootState = ReturnType<typeof store.getState>;
+export type AppStore = ReturnType<typeof setupStore>;
+export type RootState = ReturnType<typeof rootReducers>;
 export type AppDispatch = typeof store.dispatch;
+
+
+export function setupStore(preloadedState?:Partial<RootState>) {
+  return configureStore({
+    middleware:(getDefaultMiddleware) =>
+      getDefaultMiddleware({
+        thunk: {
+          extraArgument:api,
+        },
+      }),
+    reducer:rootReducers,
+    preloadedState,
+  }
+
+  );
+}
+export const store = setupStore();
 

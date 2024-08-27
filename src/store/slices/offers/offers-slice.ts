@@ -23,9 +23,6 @@ export const offersSlice = createSlice({
     changeCity(state, action:PayloadAction<CitiesName>) {
       state.city = action.payload;
     },
-    reloadOffers(state, action:PayloadAction<OfferPreview[]>) {
-      state.offers = action.payload;
-    },
     changeSortVariant(state, action:PayloadAction<SortVariants>) {
       state.sortVariant = action.payload;
     },

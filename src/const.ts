@@ -39,6 +39,7 @@ export const CityMap = {
 } as const;
 export const DEFAULT_CITY = CitiesName.Paris;
 
+export const RATING = [5,4,3,2,1];
 export const BookmarkSizeMap: TSizeMap = {
   small: {width: '18', height: '19'},
   large: {width: '31', height: '33'}
@@ -69,8 +70,8 @@ export const URL_MARKER_CURRENT = 'https://assets.htmlacademy.ru/content/intensi
 
 export enum SortVariants {
   Popular = 'Popular',
-  PriceLowToHi = 'Price low to hi',
-  PriceHiToLow = 'Price hi to low',
+  PriceLowToHi = 'Price: low to high',
+  PriceHiToLow = 'Price: high to low',
   TopRatedFirst = 'Top rated first',
 }
 export const DEFAULT_SORT_VARIANT = SortVariants.Popular;

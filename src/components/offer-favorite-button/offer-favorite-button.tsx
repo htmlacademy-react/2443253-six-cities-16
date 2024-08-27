@@ -4,6 +4,9 @@ import { useActionCreators } from '../../store/hooks/useActionCreators';
 import { favoritesActions} from '../../store/slices/favorites/favorites-slice';
 import { offerActions } from '../../store/slices/offer/offer-slice';
 import { offersActions } from '../../store/slices/offers/offers-slice';
+import { useNavigate } from 'react-router-dom';
+import { AppRoute } from '../../const';
+import { useAuth } from '../../hooks/use-auth';
 
 type OfferButtonProps = {
   height:string;
@@ -15,7 +18,8 @@ type OfferButtonProps = {
 }
 
 export default function OfferFavoriteButton ({height,width,isFavorite,isPreview,offerId}:OfferButtonProps):JSX.Element {
-
+  const isAuth = useAuth();
+  const navigate = useNavigate();
   const [isCurrentFavoriteStatus, setCurrentFavoriteStatus] = useState(isFavorite);
 
 
@@ -24,6 +28,9 @@ export default function OfferFavoriteButton ({height,width,isFavorite,isPreview,
   const {updateOffers} = useActionCreators(offersActions);
   //Обработчик по клику
   const favoriteStatusClickHandler = () => {
+    if(!isAuth){
+      navigate(AppRoute.Login);
+    }
     setCurrentFavoriteStatus(!isCurrentFavoriteStatus);
     //обновим состояние предложений на сервере
     changeFavorites({offerId,status:Number(!isCurrentFavoriteStatus)})

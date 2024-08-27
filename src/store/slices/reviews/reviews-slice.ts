@@ -2,7 +2,6 @@ import { createSlice } from '@reduxjs/toolkit';
 import { RequestStatus } from '../../../services/api';
 import { REVIEWS_SLICE_NAME } from '../slice-names';
 import { fetchReviews, postReview } from './reviews-thunk';
-import { isActionPending, isActionRejected } from '../../../utils/redux';
 import { ReviewsState } from '../../types';
 
 
@@ -24,17 +23,20 @@ export const reviewsSlice = createSlice({
       .addCase(postReview.fulfilled,
         (state, action) => {
           state.items.push(action.payload);
+          state.status = RequestStatus.Success;
         })
-      .addMatcher(isActionPending(REVIEWS_SLICE_NAME), (state) => {
-        state.status = RequestStatus.Loading;
-      })
-      .addMatcher(isActionRejected(REVIEWS_SLICE_NAME), (state) => {
-        state.status = RequestStatus.Failed;
-      });
+      .addCase(postReview.pending,
+        (state) => {
+          state.status = RequestStatus.Loading;
+        })
+      .addCase(postReview.rejected,
+        (state) => {
+          state.status = RequestStatus.Failed;
+        });
   },
   selectors: {
-    reviews: (state) => state.items,
-    RequestStatus: (state) => state.status,
+    reviews: (state:ReviewsState) => state.items,
+    reviewsStatus: (state:ReviewsState) => state.status,
   },
 });
 

@@ -3,12 +3,8 @@ import { AuthorizationStatus } from '../../../const';
 import { USER_SLICE_NAME } from '../slice-names';
 import { User } from '../../../types/user';
 import { checkAuth, login, logout } from './user-thunk';
+import { UserState } from '../../types';
 
-
-type UserState = {
-  info: User | null;
-  status: AuthorizationStatus;
-};
 
 const initialState: UserState = {
   info: null,
@@ -19,9 +15,6 @@ export const userSlice = createSlice({
   name: USER_SLICE_NAME,
   initialState,
   reducers: {
-    checkUserStatus: (state, action: PayloadAction<AuthorizationStatus>) => {
-      state.status = action.payload;
-    },
   },
   extraReducers: (builder) => {
     builder

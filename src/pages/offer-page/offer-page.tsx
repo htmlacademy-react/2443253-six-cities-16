@@ -5,7 +5,7 @@ import { BookmarkSizeMap, VariantCard } from '../../const';
 import ReviewsList from '../../components/reviews-list/reviews-list';
 import NewReview from '../../components/new-review/new-review';
 import Map from '../../components/map/map';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import OfferCard from '../../components/offer-card/offer-card';
 import { OfferList } from '../../components/offer-list/offer-list';
 import { useAuth } from '../../hooks/use-auth';
@@ -15,7 +15,6 @@ import { useAppSelector } from '../../store/hooks/useAppSelector';
 
 import { reviewsActions, reviewsSelectors } from '../../store/slices/reviews/reviews-slice';
 import Spinner from '../../components/spinner/spinner';
-import { offersSelectors } from '../../store/slices/offers/offers-slice';
 import { RequestStatus } from '../../services/api';
 import { useActionCreators } from '../../store/hooks/useActionCreators';
 import NotFoundPage from '../not-found-page/not-found-page';
@@ -34,19 +33,11 @@ function OfferPage(): JSX.Element {
       fetchReviews(offerId as string)]);
   }, [fetchOffer,fetchNearBy,fetchReviews,offerId]);
 
-  //State по выбору карточки предложения неподалеку для отображения на карте
-  const [selectedNearbyCardId, setSelectedNearbyId] = useState('');
 
   const offerCard = useAppSelector(offerSelectors.offer);
-  const offersNearby = useAppSelector(offerSelectors.nearbyOffers);
+  const offersNearby = useAppSelector(offerSelectors.nearbyOffers).slice(0,3);
   const offerReviews = useAppSelector(reviewsSelectors.reviews);
   const offerStatus = useAppSelector(offerSelectors.requestStatus);
-  const activeCardId = useAppSelector(offersSelectors.activeId);
-
-  useEffect(() => {
-    setSelectedNearbyId(activeCardId);
-  },[activeCardId]);
-
 
   if (offerStatus === RequestStatus.Loading) {
     return(<Spinner/>);
@@ -57,7 +48,6 @@ function OfferPage(): JSX.Element {
   }
 
   const {city,title,images,isPremium,isFavorite,rating,type,bedrooms,maxAdults,goods,host,description,price} = offerCard;
-
   return (
     <div className="page">
       <Helmet>
@@ -68,7 +58,7 @@ function OfferPage(): JSX.Element {
         <section className="offer">
           <div className="offer__gallery-container container">
             <div className="offer__gallery">
-              { images.map((item) =>
+              { images.slice(0,6).map((item) =>
                 (
                   <div key ={item} className="offer__image-wrapper">
                     <img className="offer__image" src={item} alt="Photo studio"/>
@@ -154,9 +144,9 @@ function OfferPage(): JSX.Element {
           </div>
           {/* Карта*/}
           <Map
-            offers={offersNearby}
+            offers={[...offersNearby,offerCard]}
             activeCity={city}
-            selectedCardId={selectedNearbyCardId}
+            selectedCardId={offerCard.id}
             extraHeight = '100%'
             extraClass='offer__map'
           />
