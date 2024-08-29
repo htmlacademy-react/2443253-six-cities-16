@@ -27,7 +27,7 @@ export default function OfferFavoriteButton ({height,width,isFavorite,isPreview,
   const {updateOffer} = useActionCreators(offerActions);
   const {updateOffers} = useActionCreators(offersActions);
   //Обработчик по клику
-  const favoriteStatusClickHandler = () => {
+  const handlefavoriteStatusClick = () => {
     if(!isAuth){
       navigate(AppRoute.Login);
     }
@@ -47,7 +47,7 @@ export default function OfferFavoriteButton ({height,width,isFavorite,isPreview,
 
   return(
     <button className={clsx(classNameButton,{[classNameActive] : isCurrentFavoriteStatus}, 'button')} type="button"
-      onClick = {favoriteStatusClickHandler}
+      onClick = {handlefavoriteStatusClick}
     >
       <svg className={clsx(classNameIcon)} width={width} height={height}>
         <use xlinkHref="#icon-bookmark"></use>

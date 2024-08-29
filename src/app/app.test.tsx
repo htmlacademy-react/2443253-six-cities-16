@@ -1,6 +1,6 @@
 import { AppRoute } from '../const';
 import App from './app';
-import { renderWithRouterAndRedux } from '../mocks/mock-component';
+import { renderWithRouterAndRedux } from './mock-component';
 import { waitFor,screen } from '@testing-library/react';
 
 describe('App',()=>{

@@ -1,6 +1,6 @@
 
 import { BookmarkSizeMap } from '../../const';
-import { withHistory } from '../../mocks/mock-component';
+import { withHistory } from '../../app/mock-component';
 import OfferFavoriteButton from './offer-favorite-button';
 import { mockOffersPreview } from '../../mocks/offers';
 import { render,screen } from '@testing-library/react';

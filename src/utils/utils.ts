@@ -1,6 +1,7 @@
 import { CityMap, ImageSizeMap, VariantCard } from '../const';
 import { City } from '../types/city';
 import { VariantCardExtraClasses } from '../types/offer';
+import { Review } from '../types/review';
 
 export default function takeCity (city:string):City {
   switch (city) {
@@ -32,6 +33,8 @@ export function getCardSize(variant : string):typeof ImageSizeMap.large {
   }
 }
 
-export function formatDate(date:string):string {
-  return new Intl.DateTimeFormat('en-US', {month: 'long', year: 'numeric'}).format(new Date(date));
+export function sortReviewsByDate(reviews:Review[]):Review[] {
+  //Сортировка по дате сверху - свежие
+  return structuredClone(reviews).sort((a, b) => Date.parse(b.date) - Date.parse(a.date));
+
 }

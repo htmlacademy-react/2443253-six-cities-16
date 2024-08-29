@@ -13,19 +13,11 @@ export type StateType = {
   requestStatus:RequestStatus;
 }
 
-export type UserStateType = {
-  authStatus : AuthorizationStatus;
-}
-
 export type UserState = {
   info: User | null;
   status: AuthorizationStatus;
 };
 
-
-export type LoaderStateType = {
-  loaderStatus : boolean;
-}
 
 export enum FavoritesStatus {
   Removed,

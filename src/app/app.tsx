@@ -55,7 +55,7 @@ function App(): JSX.Element {
               }
             />
             <Route path={AppRoute.NotFound} element={<NotFoundPage />} />
-          </Route>{/* LayoutMain */}
+          </Route>
         </Routes>
       </BrowserRouter>
     </HelmetProvider>
