@@ -12,7 +12,7 @@ export default function SortVariantSelector ():JSX.Element {
   const dispatch = useDispatch();
   const [currentSortVariant, setCurrentSortVariant] = useState(DEFAULT_SORT_VARIANT);
   //Открываем список сортировки
-  const onSortListOpenClick = (evt :React.MouseEvent<HTMLElement>) => {
+  const handleSortListOpenClick = (evt :React.MouseEvent<HTMLElement>) => {
     evt.preventDefault();
     const target = evt.target as HTMLElement;
     if (target.closest('.places__sorting') && target.tagName !== 'LI') {
@@ -21,7 +21,7 @@ export default function SortVariantSelector ():JSX.Element {
 
   };
   //Изменяет текущий вариант сортировки
-  const onChangeVariantClick = (evt :React.MouseEvent<HTMLElement>,sortVariant : SortVariants) => {
+  const handleChangeVariantClick = (evt :React.MouseEvent<HTMLElement>,sortVariant : SortVariants) => {
     evt.preventDefault();
     setCurrentSortVariant(sortVariant);
     setOpen(false);
@@ -31,7 +31,7 @@ export default function SortVariantSelector ():JSX.Element {
 
   return(
     <form className="places__sorting" action="#" method="get"
-      onClick ={(evt) =>onSortListOpenClick(evt)}
+      onClick ={(evt) =>handleSortListOpenClick(evt)}
     >
       <span className="places__sorting-caption">Sort by</span>
       <span className="places__sorting-type" tabIndex ={0}>
@@ -46,7 +46,7 @@ export default function SortVariantSelector ():JSX.Element {
         {Object.values(SortVariants).map((sortVariant) => (
           <li
             key = {sortVariant}
-            onClick = {(evt) =>onChangeVariantClick(evt,sortVariant)}
+            onClick = {(evt) =>handleChangeVariantClick(evt,sortVariant)}
             tabIndex ={0}
             className ={clsx('places__option',
               sortVariant === currentSortVariant && 'places__option--active')}

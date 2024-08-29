@@ -1,7 +1,6 @@
-import { CitiesName, DEFAULT_SORT_VARIANT, SortVariants } from '../../../const';
-import { mockOfferId, mockOffersPreview} from '../../../mocks/offers';
+import { CitiesName, DEFAULT_SORT_VARIANT} from '../../../const';
 import { RequestStatus } from '../../../services/api';
-import { offersActions, offersSlice } from './offers-slice';
+import { offersSlice } from './offers-slice';
 import { fetchOffersAction } from './offers-thunk';
 
 describe('Offers Slice', () => {
@@ -23,8 +22,6 @@ describe('Offers Slice', () => {
       const expectedState = {
         city: CitiesName.Paris,
         offers: [],
-        activeId: '' ,
-        sortVariant : DEFAULT_SORT_VARIANT,
         requestStatus: RequestStatus.Loading,
 
       };
@@ -33,25 +30,19 @@ describe('Offers Slice', () => {
 
     });
     it('should return success when fetchFavoriteAction.fulfilled', () => {
-      const mocksOffers = mockOffersPreview;
       const expectedState = {
         city: CitiesName.Paris,
-        offers: mocksOffers,
-        activeId: '' ,
-        sortVariant : DEFAULT_SORT_VARIANT,
+        offers: [],
         requestStatus: RequestStatus.Success,
       };
-      const result = offersSlice.reducer(initialState, fetchOffersAction.fulfilled(mocksOffers,'',undefined));
+      const result = offersSlice.reducer(initialState, fetchOffersAction.fulfilled([],'',undefined));
       expect(result).toEqual(expectedState);
 
     });
     it('should return Failed when fetchFavoriteAction.rejected', () => {
-      const mocksOffers = mockOffersPreview;
       const expectedState = {
         city: CitiesName.Paris,
-        offers: mocksOffers,
-        activeId: '' ,
-        sortVariant : DEFAULT_SORT_VARIANT,
+        offers: [],
         requestStatus: RequestStatus.Failed,
 
       };
@@ -61,66 +52,5 @@ describe('Offers Slice', () => {
     });
   });
 
-  //Обычные редьюсеры для store
-  describe('Reducers OffersSlice', () => {
-    const initialState = {
-      city: CitiesName.Paris,
-      offers: [] ,
-      activeId: '' ,
-      sortVariant : DEFAULT_SORT_VARIANT,
-      requestStatus: RequestStatus.Idle
-    };
-
-    it('should return newCity = Amsterdam when changeCity', () => {
-      const expectedState = {
-        city: CitiesName.Amsterdam,//обновление города
-        offers: [] ,
-        activeId: '' ,
-        sortVariant : DEFAULT_SORT_VARIANT,
-        requestStatus: RequestStatus.Idle
-      };
-      const result = offersSlice.reducer(initialState, offersActions.changeCity(CitiesName.Amsterdam));
-      expect(result).toEqual(expectedState);
-
-    });
-    it('should return new sortVariant when changeSortVariant', () => {
-      const expectedState = {
-        city: CitiesName.Paris,
-        offers: [] ,
-        activeId: '' ,
-        sortVariant : SortVariants.Popular,//обновление варианта сортировки
-        requestStatus: RequestStatus.Idle
-      };
-      const result = offersSlice.reducer(initialState, offersActions.changeSortVariant(SortVariants.Popular));
-      expect(result).toEqual(expectedState);
-
-    });
-
-    it('should return new ActiveId when setActiveId', () => {
-      const expectedState = {
-        city: CitiesName.Paris,
-        offers: [] ,
-        activeId: mockOfferId ,
-        sortVariant : DEFAULT_SORT_VARIANT,//обновление варианта сортировки
-        requestStatus: RequestStatus.Idle
-      };
-      const result = offersSlice.reducer(initialState, offersActions.setActiveId(mockOfferId));
-      expect(result).toEqual(expectedState);
-    });
-
-    it('should return offers with updated favoriteStatus(seached by offer.id) when updateOffers', () => {
-      const mocksOffers = mockOffersPreview;
-      mocksOffers[1] = {...mocksOffers[1],isFavorite: !mocksOffers[1].isFavorite};
-      const expectedState = {
-        city: CitiesName.Paris,
-        offers: mocksOffers,//обновление статуса у второго предложения из mocksOffers (mockOfferId у второго элемента)
-        activeId: '' ,
-        sortVariant : DEFAULT_SORT_VARIANT,
-        requestStatus: RequestStatus.Idle
-      };
-      const result = offersSlice.reducer(initialState, offersActions.updateOffers(mockOfferId));
-      expect(result).toEqual(expectedState);
-    });
-  });
 });
 

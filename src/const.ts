@@ -1,5 +1,9 @@
+import { Icon } from 'leaflet';
 import { OfferPreview } from './types/offer';
+import { Review } from './types/review';
 import { TSizeMap } from './types/size';
+import UrlMarkerDefault from './components/map/assets/pin.svg';
+import UrlMarkerCurrent from './components/map/assets/pin-active.svg';
 
 
 export enum AppRoute {
@@ -37,9 +41,15 @@ export const CityMap = {
   Hamburg: { name: CitiesName.Hamburg, location: { latitude: 53.5488, longitude: 9.9872, zoom: 10 } },
   Dusseldorf: { name: CitiesName.Dusseldorf, location: { latitude: 51.2277, longitude: 6.7735, zoom: 10 } },
 } as const;
-export const DEFAULT_CITY = CitiesName.Paris;
 
-export const RATING = [5,4,3,2,1];
+
+export const ratings = [
+  { stars: 5, title: 'perfect' },
+  { stars: 4, title: 'good' },
+  { stars: 3, title: 'not bad' },
+  { stars: 2, title: 'badly' },
+  { stars: 1, title: 'terribly' },
+];
 export const BookmarkSizeMap: TSizeMap = {
   small: {width: '18', height: '19'},
   large: {width: '31', height: '33'}
@@ -64,9 +74,6 @@ export enum VariantCard {
   NearbyOffer ='NearbyOffer',
 }
 
-export const URL_MARKER_DEFAULT = 'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/pin.svg';
-export const URL_MARKER_CURRENT = 'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/main-pin.svg';
-
 
 export enum SortVariants {
   Popular = 'Popular',
@@ -82,13 +89,15 @@ export const sortOffers = [
   {sortVariant: SortVariants.PriceLowToHi, sort: (offers : OfferPreview[]) => offers.sort((a, b) => a.price - b.price)},
   {sortVariant: SortVariants.TopRatedFirst, sort: (offers : OfferPreview[]) => offers.sort((a, b) => b.rating - a.rating)},
 ];
+export const sortReviews = (reviews : Review[]) => reviews.sort((a, b) => Number(new Date(b.date)) - Number(new Date(a.date)));
+
 
 export const BACKEND_URL = 'https://16.design.htmlacademy.pro/six-cities';
 export const REQUEST_TIMEOUT = 5000;
 
 export const AUTH_TOKEN = 'six-cities-token';
 
-export enum DATA_PATH_URL {
+export enum DataPathUrl {
   Offers = '/offers',
   Comments = '/comments',
   Favorite = '/favorite',
@@ -97,3 +106,29 @@ export enum DATA_PATH_URL {
 }
 
 
+export const textError = {
+  textErrorValidationForm: 'Email or password is incorrect',
+  textSuccessAuthorization: 'You have successfully logged in',
+  textFailedAuthorization: 'An error occurred during authorization',
+  textErrorReviewValidation: 'Review is not valid. Its length should be between 50 and 300 symbols',
+};
+
+
+export const DefaultCustomIcon:Icon = new Icon({
+  iconUrl: UrlMarkerDefault,
+  iconSize: [27, 39],
+  iconAnchor: [13.5, 39],
+});
+
+
+export const CurrentCustomIcon:Icon = new Icon({
+  iconUrl: UrlMarkerCurrent,
+  iconSize: [27, 39],
+  iconAnchor: [13.5, 39],
+});
+
+export const MIN_COMMENT_LENGTH = 50;
+export const MAX_COMMENT_LENGTH = 300;
+export const MAX_REVIEWS_VIEW = 10;
+export const MAX_NEARBY_VIEW = 3;
+export const MAX_OFFER_PHOTOS_VIEW = 6;

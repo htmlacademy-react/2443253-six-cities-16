@@ -1,5 +1,5 @@
 
-import { DATA_PATH_URL} from '../../../const';
+import { DataPathUrl} from '../../../const';
 import { OfferPreview } from '../../../types/offer';
 import { createAppAsyncThunk } from '../../hooks/createAppAsyncThunk';
 
@@ -11,7 +11,7 @@ export const fetchOffersAction = createAppAsyncThunk<OfferPreview[], void>(
   `${OFFERS_SLICE_NAME}/fetchOffers`,
   async (_, { extra: api },
   ) => {
-    const { data } = await api.get<OfferPreview[]>(DATA_PATH_URL.Offers);
+    const { data } = await api.get<OfferPreview[]>(DataPathUrl.Offers);
     return data;
   }
 );

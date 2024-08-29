@@ -1,7 +1,17 @@
 import { AuthorizationStatus} from '../../../const';
-import { mockUser } from '../../../mocks/user';
+import { User } from '../../../types/user';
+
 import userSlice from './user-slice';
 import { checkAuth, login, logout } from './user-thunk';
+
+const mockUser:User = {
+  id: Math.random(),
+  name : 'Дима',
+  email : 'Diman@gmail.com',
+  token: '',
+  avatarUrl:'',
+  isPro:false
+};
 
 
 describe('Users Slice (ExtraRedusers)', () => {

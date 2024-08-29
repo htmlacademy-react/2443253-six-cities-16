@@ -1,7 +1,7 @@
 import { Helmet } from 'react-helmet-async';
 import Premium from '../../components/premium/premium';
 import OfferFavoriteButton from '../../components/offer-favorite-button/offer-favorite-button';
-import { BookmarkSizeMap, VariantCard } from '../../const';
+import { BookmarkSizeMap, MAX_NEARBY_VIEW, MAX_OFFER_PHOTOS_VIEW, VariantCard } from '../../const';
 import ReviewsList from '../../components/reviews-list/reviews-list';
 import NewReview from '../../components/new-review/new-review';
 import Map from '../../components/map/map';
@@ -18,6 +18,7 @@ import Spinner from '../../components/spinner/spinner';
 import { RequestStatus } from '../../services/api';
 import { useActionCreators } from '../../store/hooks/useActionCreators';
 import NotFoundPage from '../not-found-page/not-found-page';
+import { capitalize, getRatingWidth } from '../../utils/offers';
 
 
 function OfferPage(): JSX.Element {
@@ -35,16 +36,16 @@ function OfferPage(): JSX.Element {
 
 
   const offerCard = useAppSelector(offerSelectors.offer);
-  const offersNearby = useAppSelector(offerSelectors.nearbyOffers).slice(0,3);
+  const offersNearby = useAppSelector(offerSelectors.nearbyOffers).slice(0,MAX_NEARBY_VIEW);
   const offerReviews = useAppSelector(reviewsSelectors.reviews);
   const offerStatus = useAppSelector(offerSelectors.requestStatus);
 
-  if (offerStatus === RequestStatus.Loading) {
-    return(<Spinner/>);
+  if (offerStatus === RequestStatus.Failed) {
+    return(<NotFoundPage/>);
   }
 
-  if (offerStatus === RequestStatus.Failed || !offerCard) {
-    return(<NotFoundPage/>);
+  if (offerStatus === RequestStatus.Loading || !offerCard) {
+    return(<Spinner/>);
   }
 
   const {city,title,images,isPremium,isFavorite,rating,type,bedrooms,maxAdults,goods,host,description,price} = offerCard;
@@ -58,7 +59,7 @@ function OfferPage(): JSX.Element {
         <section className="offer">
           <div className="offer__gallery-container container">
             <div className="offer__gallery">
-              { images.slice(0,6).map((item) =>
+              { images.slice(0,MAX_OFFER_PHOTOS_VIEW).map((item) =>
                 (
                   <div key ={item} className="offer__image-wrapper">
                     <img className="offer__image" src={item} alt="Photo studio"/>
@@ -81,14 +82,14 @@ function OfferPage(): JSX.Element {
               </div>
               <div className="offer__rating rating">
                 <div className="offer__stars rating__stars">
-                  <span style={{width: `${rating / 5 * 100}%`}}></span>
+                  <span style={{width: `${getRatingWidth(rating)}`}}></span>
                   <span className="visually-hidden">Rating</span>
                 </div>
                 <span className="offer__rating-value rating__value">{rating}</span>
               </div>
               <ul className="offer__features">
                 <li className="offer__feature offer__feature--entire">
-                  {type}
+                  {capitalize(type)}
                 </li>
                 <li className="offer__feature offer__feature--bedrooms">
                   {bedrooms} {bedrooms > 1 ? 'Bedrooms' : 'Bedroom'}

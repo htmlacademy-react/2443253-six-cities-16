@@ -1,4 +1,7 @@
+import { MAX_REVIEWS_VIEW} from '../../const';
 import { Review } from '../../types/review';
+import { formatDate, getRatingWidth } from '../../utils/offers';
+import { sortReviewsByDate } from '../../utils/utils';
 
 type ReviewsListProps = {
   reviews: Review[];
@@ -7,10 +10,11 @@ type ReviewsListProps = {
 
 export default function ReviewsList ({reviews}:ReviewsListProps){
 
-
+  //Сортировка по дате сверху - свежие
+  const sortedReviews = sortReviewsByDate(reviews);
   return(
     <ul className="reviews__list">
-      {reviews.map((review)=>
+      {sortedReviews.slice(0,MAX_REVIEWS_VIEW).map((review)=>
         (
           <li key={review.id} className="reviews__item">
             <div className="reviews__user user">
@@ -24,7 +28,7 @@ export default function ReviewsList ({reviews}:ReviewsListProps){
             <div className="reviews__info">
               <div className="reviews__rating rating">
                 <div className="reviews__stars rating__stars">
-                  <span style={{width:review.rating / 5 * 100}}></span>
+                  <span style={{width:getRatingWidth(review.rating)}}></span>
                   <span className="visually-hidden">Rating</span>
                 </div>
               </div>
@@ -32,7 +36,7 @@ export default function ReviewsList ({reviews}:ReviewsListProps){
                 {review.comment}
               </p>
               <time className="reviews__time" dateTime={review.date}>
-                {review.date}
+                {formatDate(review.date)}
               </time>
             </div>
           </li>

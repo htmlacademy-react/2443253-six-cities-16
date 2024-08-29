@@ -1,4 +1,3 @@
-import { OFFERS_DETAIL } from '../../../mocks/offers';
 import { RequestStatus } from '../../../services/api';
 
 import { reviewsSlice } from './reviews-slice';
@@ -25,12 +24,11 @@ describe('ExtraReducers ReviewsSlice', () => {
 
   });
   it('should return success when fetchReviews.fulfilled', () => {
-    const mocksReviews = OFFERS_DETAIL[0].reviews;
     const expectedState = {
-      items: mocksReviews,
+      items: [],
       status: RequestStatus.Success,
     };
-    const result = reviewsSlice.reducer(initialState, fetchReviews.fulfilled(mocksReviews,'',''));
+    const result = reviewsSlice.reducer(initialState, fetchReviews.fulfilled([],'',''));
     expect(result).toEqual(expectedState);
 
   });

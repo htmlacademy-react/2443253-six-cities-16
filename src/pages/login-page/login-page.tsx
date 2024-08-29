@@ -2,15 +2,33 @@ import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useActionCreators } from '../../store/hooks/useActionCreators';
 import { userActions } from '../../store/slices/user/user-slice';
+import { toast } from 'react-toastify';
+import { textError } from '../../const';
 
 function LoginPage(): JSX.Element {
   const [formData, setFormData] = useState({ email: '', password: '' });
   const {login} = useActionCreators(userActions);
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({...formData, [event.target.name]: event.target.value });
   };
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+
+  let isFormCorrect = false;
+  const regularMail = /^[A-Z0-9._%+-]+@[A-Z0-9-]+.+.[A-Z]{2,4}$/i;
+  const regularPass = /^\w{1,}\d{1,}|\d{1,}\w{1,}$/i;
+
+
+  if (!regularMail.test(formData.email) || !regularPass.test(formData.password)) {
+    isFormCorrect = false;
+  } else {
+    isFormCorrect = true;
+  }
+
+
+  const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    if (isFormCorrect === false) {
+      return toast.error(textError.textErrorValidationForm);
+    }
     login(formData);
   };
 
@@ -26,14 +44,14 @@ function LoginPage(): JSX.Element {
           <section className="login">
             <h1 className="login__title">Sign in</h1>
             <form className="login__form form"
-              onSubmit={handleSubmit}
+              onSubmit={handleFormSubmit}
             >
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">E-mail</label>
                 <input className="login__input form__input" type="email"
                   name="email" placeholder="Email"
                   value={formData.email}
-                  onChange={handleChange}
+                  onChange={handleInputChange}
                   required
                 />
               </div>
@@ -42,7 +60,7 @@ function LoginPage(): JSX.Element {
                 <input className="login__input form__input" type="password"
                   name="password" placeholder="Password"
                   value={formData.password}
-                  onChange={handleChange}
+                  onChange={handleInputChange}
                   required
                 />
               </div>

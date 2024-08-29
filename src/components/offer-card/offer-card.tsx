@@ -9,6 +9,7 @@ import { getCardClass, getCardSize } from '../../utils/utils';
 import { useActionCreators } from '../../store/hooks/useActionCreators';
 
 import { offersActions } from '../../store/slices/offers/offers-slice';
+import { capitalize, getRatingWidth } from '../../utils/offers';
 
 
 export type OfferCardProps = {
@@ -23,10 +24,10 @@ export default function OfferCard (props :OfferCardProps) :JSX.Element{
 
   const {setActiveId} = useActionCreators(offersActions);
   //Обработчики по наведению
-  const mouseOverHandler = () => {
+  const handleMouseOver = () => {
     setActiveId(id);
   };
-  const mouseLeaveHandler = () => {
+  const handleMouseLeave = () => {
     setActiveId('');
   };
 
@@ -34,8 +35,8 @@ export default function OfferCard (props :OfferCardProps) :JSX.Element{
 
     <article className={clsx(getCardClass(variant).split(' ')[0], 'place-card')}
     //изменяем state состояние при наведении
-      onMouseOver= {mouseOverHandler}
-      onMouseLeave= {mouseLeaveHandler}
+      onMouseOver= {handleMouseOver}
+      onMouseLeave= {handleMouseLeave}
     >
       {(variant !== VariantCard.NearbyOffer.toString()) && <Premium isPremium ={isPremium} typeMark = {'place-card__mark'}/>}
 
@@ -63,7 +64,7 @@ export default function OfferCard (props :OfferCardProps) :JSX.Element{
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{width: `${rating / 5 * 100}%`}}></span>
+            <span style={{width: `${getRatingWidth(rating)}`}}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
@@ -74,7 +75,7 @@ export default function OfferCard (props :OfferCardProps) :JSX.Element{
             {title}
           </Link>
         </h2>
-        <p className="place-card__type">{type}</p>
+        <p className="place-card__type">{capitalize(type)}</p>
       </div>
     </article>
 

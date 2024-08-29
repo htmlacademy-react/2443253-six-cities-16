@@ -34,6 +34,12 @@ export const offerSlice = createSlice({
           state.status = RequestStatus.Loading;
         }
       )
+      .addCase(
+        fetchOffer.rejected,
+        (state) => {
+          state.status = RequestStatus.Failed;
+        }
+      )
       .addCase(fetchNearBy.fulfilled,
         (state, action) => {
           state.nearby = action.payload;

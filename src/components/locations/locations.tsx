@@ -24,7 +24,7 @@ export function Locations(): JSX.Element {
   }
   ,[]);
 
-  const onChangeCityClickHandler = (evt:MouseEvent<HTMLElement>,city:CitiesName):void => {
+  const handleCityClick = (evt:MouseEvent<HTMLElement>,city:CitiesName):void => {
     evt.preventDefault();
     dispatch(offersActions.changeCity(city));
     setSearchParams({
@@ -40,7 +40,7 @@ export function Locations(): JSX.Element {
             <li key={city} className="locations__item">
               <a className={clsx('locations__item-link','tabs__item',(city === currentCity) && 'tabs__item--active')}
                 href="#"
-                onClick = {(evt) => onChangeCityClickHandler(evt,city)}
+                onClick = {(evt) => handleCityClick(evt,city)}
               >
                 <span>{city}</span>
               </a>
