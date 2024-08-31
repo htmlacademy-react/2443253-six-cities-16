@@ -14,7 +14,7 @@ function LoginPage(): JSX.Element {
 
   let isFormCorrect = false;
   const regularMail = /^[A-Z0-9._%+-]+@[A-Z0-9-]+.+.[A-Z]{2,4}$/i;
-  const regularPass = /^\w{1,}\d{1,}|\d{1,}\w{1,}$/i;
+  const regularPass = /^[a-zA-Z]+\d+|\d+[a-zA-Z]+$/i;
 
 
   if (!regularMail.test(formData.email) || !regularPass.test(formData.password)) {
