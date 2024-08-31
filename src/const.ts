@@ -107,7 +107,7 @@ export enum DataPathUrl {
 
 
 export const textError = {
-  textErrorValidationForm: 'Email or password is incorrect',
+  textErrorValidationForm: 'Email or password is incorrect (password must have at least 1 letter and at least 1 number)',
   textSuccessAuthorization: 'You have successfully logged in',
   textFailedAuthorization: 'An error occurred during authorization',
   textErrorReviewValidation: 'Review is not valid. Its length should be between 50 and 300 symbols',
